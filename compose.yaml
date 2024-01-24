@@ -1,0 +1,92 @@
+version: '3.1'
+services:
+
+  web-dashboard:
+    image: b4bz/homer
+    #To build from source, comment previous line and uncomment below
+    #build: .
+    container_name: homer
+    volumes:
+      - /home/ken/Docker/homer/assets/:/www/assets
+    environment:
+      - INIT_ASSETS=1
+    ports:
+      - 8080:8080
+    user: 1000:1000 # default
+    restart: always
+      
+      #  os-container-0:
+      #    image: fedora:latest
+      #    container_name: fedora
+      #    restart: unless-stopped
+      #    tty: true
+      #
+      #  os-container-1:
+      #    image: kalilinux/kali-rolling 
+      #    container_name: kali 
+      #    restart: unless-stopped
+      #    tty: true
+      #
+      #  os-container-2:
+      #    image: debian:latest 
+      #    container_name: debian 
+      #    restart: unless-stopped
+      #    tty: true
+      #
+      #  os-container-3:
+      #    image: ubuntu:latest 
+      #    container_name: ubuntu 
+      #    restart: unless-stopped
+      #    tty: true
+
+  #  db-admin:
+  #  image: linuxserver/phpmyadmin:5.2.1
+  #  container_name: phpmyadmin
+  #  environment:
+  #    - TZ=Asia/Manila # Specify a timezone to use
+  #    - PUID=1000 # User ID to run as
+  #    - PMA_ARBITRARY=1 # Set to 1 to allow you to connect to any server. Setting to 0 will only allow you to connect to specified hosts
+  #    - PMA_ABSOLUTE_URI=http://192.168.1.103 # Set the URL you will use to access the web UI
+  #    - PGID=1000 # Group ID to run as
+  #  volumes:
+  #    - /home/ken/Docker/phpmyadmin/config:/config # Contains all relevant configuration files.
+  #  ports:
+  #    - 80:80/tcp # Web UI
+
+      #db:
+      #image: ubuntu/mysql:8.0-22.04_beta
+      #container_name: mysql
+      #environment:
+      #- TZ=Asia/Manila
+      #- MYSQL_ROOT_PASSWORD=adminSQL_isme!(>!<)
+      #ports:
+      #- 30306:3306
+      #volumes:
+      #- /home/ken/Docker/mysql/data:/var/lib/mysql
+        # volume for mysql config
+        #- /home/ken/Docker/mysql/config/files/:/etc/mysql/mysql.conf.d/ # create my.cnf with [mysqld] \bind-address=0.0.0.0
+
+#  media-server:
+#    image: jellyfin
+#    container_name: jellyfin
+
+
+#  dev-os:
+#    image: ubuntu:latest
+#    container_name: ubuntu
+#    restart: unless-stopped
+#    ports:
+#      - 8081:8080
+#    tty: true
+
+#  docker-manager:
+#    image: portainer/portainer-ce:latest
+#    container_name: portainer
+#    volumes:
+#      - /home/ken/Docker/portainer/data:/data
+#      - /var/run/docker.sock:/var/run/docker.sock
+#    ports:
+#      - 8000:8000 
+#      - 9443:9443
+#    restart: always
+
