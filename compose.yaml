@@ -33,11 +33,14 @@ services:
       #    restart: unless-stopped
       #    tty: true
       #
-      #  os-container-3:
-      #    image: ubuntu:latest 
-      #    container_name: ubuntu 
-      #    restart: unless-stopped
-      #    tty: true
+  os-container-3:
+    image: ubuntu:latest 
+    container_name: ubuntu 
+    restart: unless-stopped
+    tty: true
+    ports:
+      - 3000:3000
+      - 5000:5000
 
   #  db-admin:
   #  image: linuxserver/phpmyadmin:5.2.1
