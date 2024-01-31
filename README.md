@@ -158,9 +158,13 @@ sudo sh get-docker.sh
 git config --global user.name "ken"
 git config --global user.email "ken@homelab.com"
 git clone https://github.com/devken0/docker-homelab.git
+compose
+dockerup
 ```
 
 ### Setup Samba
+
+Move to Ubuntu Server and install cockpit-file-sharing, cockpit-file-navigator, cockpit-identities.
 
 ---
 
@@ -169,3 +173,4 @@ Credits
 https://sunknudsen.com/privacy-guides
 https://sunknudsen.com/privacy-guides/how-to-configure-hardened-debian-server
 https://www.cyberciti.biz/faq/add-configure-set-up-static-ip-address-on-debianlinux/
+https://github.com/45Drives
