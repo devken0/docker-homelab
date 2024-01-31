@@ -1,8 +1,304 @@
-version: '3.1'
+version: '3.5'
 services:
 
+  # uptime-kuma:
+  #   image: louislam/uptime-kuma:1
+  #   container_name: uptime-kuma
+  #   volumes:
+  #     - /home/mc/AppData/uptime-kuma-data:/app/data
+  #   ports:
+  #     - 3001:3001  # <Host Port>:<Container Port>
+  #   restart: always
+
+  # adminer:
+  #   image: adminer
+  #   container_name: adminer
+  #   restart: always
+  #   ports:
+  #     - 8083:8080
+
+  # lms:
+  #   container_name: lms
+  #   image: epoupon/lms
+  #   ports:
+  #     - 5082:5082
+  #   user: 1000:100
+  #   volumes:
+  #     - /home/mc/Audio:/music:ro 
+  #     - /home/mc/AppData/lms:/var/lms 
+  #   restart: unless-stopped
+
+  # photoprism:
+  #   container_name: photoprism
+  #   image: photoprism/photoprism:latest
+  #   depends_on:
+  #     - photoprism_db 
+  #   security_opt:
+  #     - seccomp:unconfined
+  #     - apparmor:unconfined
+  #   ports:
+  #     - "2342:2342"
+  #   restart: unless-stopped
+  #   environment:
+  #     PHOTOPRISM_ADMIN_USER: "admin"                 # superadmin username
+  #     PHOTOPRISM_ADMIN_PASSWORD: "homenas_092714!(~_~)photos"          # initial superadmin password (minimum 8 characters)
+  #     PHOTOPRISM_AUTH_MODE: "password"               # authentication mode (public, password)
+  #     PHOTOPRISM_SITE_URL: "http://photoprism.local:2342"   # server URL in the format "http(s)://domain.name(:port)/(path)"
+  #     PHOTOPRISM_ORIGINALS_LIMIT: 5000               # file size limit for originals in MB (increase for high-res video)
+  #     PHOTOPRISM_HTTP_COMPRESSION: "gzip"            # improves transfer speed and bandwidth utilization (none or gzip)
+  #     PHOTOPRISM_LOG_LEVEL: "info"                   # log level: trace, debug, info, warning, error, fatal, or panic
+  #     PHOTOPRISM_READONLY: "false"                   # do not modify originals directory (reduced functionality)
+  #     PHOTOPRISM_EXPERIMENTAL: "false"               # enables experimental features
+  #     PHOTOPRISM_DISABLE_CHOWN: "false"              # disables updating storage permissions via chmod and chown on startup
+  #     PHOTOPRISM_DISABLE_WEBDAV: "false"             # disables built-in WebDAV server
+  #     PHOTOPRISM_DISABLE_SETTINGS: "false"           # disables settings UI and API
+  #     PHOTOPRISM_DISABLE_TENSORFLOW: "true"         # disables all features depending on TensorFlow
+  #     PHOTOPRISM_DISABLE_FACES: "false"              # disables face detection and recognition (requires TensorFlow)
+  #     PHOTOPRISM_DISABLE_CLASSIFICATION: "false"     # disables image classification (requires TensorFlow)
+  #     PHOTOPRISM_DISABLE_RAW: "false"                # disables indexing and conversion of RAW files
+  #     PHOTOPRISM_RAW_PRESETS: "false"                # enables applying user presets when converting RAW files (reduces performance)
+  #     PHOTOPRISM_JPEG_QUALITY: 85                    # a higher value increases the quality and file size of JPEG images and thumbnails (25-100)
+  #     PHOTOPRISM_DETECT_NSFW: "false"                # automatically flags photos as private that MAY be offensive (requires TensorFlow)
+  #     PHOTOPRISM_UPLOAD_NSFW: "true"                 # allows uploads that MAY be offensive (no effect without TensorFlow)
+  #     PHOTOPRISM_DATABASE_DRIVER: "mysql"            # use MariaDB 10.5+ or MySQL 8+ instead of SQLite for improved performance
+  #     PHOTOPRISM_DATABASE_SERVER: "192.168.1.100:3301"     # MariaDB or MySQL database server (hostname:port)
+  #     PHOTOPRISM_DATABASE_NAME: "photoprism"         # MariaDB or MySQL database schema name
+  #     PHOTOPRISM_DATABASE_USER: "photoprism"         # MariaDB or MySQL database user name
+  #     PHOTOPRISM_DATABASE_PASSWORD: "insecure"       # MariaDB or MySQL database user password
+  #     PHOTOPRISM_SITE_CAPTION: "AI-Powered Photos App"
+  #     PHOTOPRISM_SITE_DESCRIPTION: ""                # meta site description
+  #     PHOTOPRISM_SITE_AUTHOR: ""                     # meta site author
+  #     PHOTOPRISM_FFMPEG_ENCODER: "intel"        # FFmpeg encoder ("software", "intel", "nvidia", "apple", "raspberry")
+  #     # PHOTOPRISM_FFMPEG_BITRATE: "32"              # FFmpeg encoding bitrate limit in Mbit/s (default: 50)
+  #   devices:
+  #     - "/dev/dri:/dev/dri"                         # Intel QSV
+  #   working_dir: "/photoprism" # do not change or remove
+  #   volumes:
+  #     # "/host/folder:/photoprism/folder"                # Example
+  #     - "/home/mc/Gallery:/photoprism/originals"               # Original media files (DO NOT REMOVE)
+  #     # - "/example/family:/photoprism/originals/family" # *Additional* media folders can be mounted like this
+  #     # - "~/Import:/photoprism/import"                  # *Optional* base folder from which files can be imported to originals
+  #     - "/home/mc/AppData/photoprism/storage:/photoprism/storage"                  # *Writable* storage folder for cache, database, and sidecar files (DO NOT REMOVE)
+
+  # photoprism_db:
+  #   container_name: photoprism_db 
+  #   image: mariadb:10.10
+  #   security_opt: 
+  #     - seccomp:unconfined
+  #     - apparmor:unconfined
+  #   command: mysqld --innodb-buffer-pool-size=512M --transaction-isolation=READ-COMMITTED --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --max-connections=512 --innodb-rollback-on-timeout=OFF --innodb-lock-wait-timeout=120
+  #   ports:
+  #     - 3301:3306
+  #   volumes:
+  #     - "/home/mc/AppData/photoprism/database:/var/lib/mysql" 
+  #   environment:
+  #     MARIADB_AUTO_UPGRADE: "1"
+  #     MARIADB_INITDB_SKIP_TZINFO: "1"
+  #     MARIADB_DATABASE: "photoprism"
+  #     MARIADB_USER: "photoprism"
+  #     MARIADB_PASSWORD: "insecure"
+  #     MARIADB_ROOT_PASSWORD: "insecure"
+  #   restart: unless-stopped
+    
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    # For DHCP it is recommended to remove these ports and instead add: network_mode: "host"
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      #- "67:67/udp" # Only required if you are using Pi-hole as your DHCP server
+      - "82:80/tcp"
+    environment:
+      TZ: 'Asia/Manila'
+      WEBPASSWORD: 'homenas_092714!(~_~)pihole'
+    # Volumes store your data between container upgrades
+    volumes:
+      - '/home/mc/AppData/pi-hole/etc-pihole:/etc/pihole'
+      - '/home/mc/AppData/pi-hole/etc-dnsmasq.d:/etc/dnsmasq.d'
+    #   https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
+    #cap_add:
+      #- NET_ADMIN # Required if you are using Pi-hole as your DHCP server, else not needed
+    restart: unless-stopped
+
+  # filebrowser:
+  #   container_name: filebrowser
+  #   image: hurlenko/filebrowser
+  #   user: "1000:100"
+  #   ports:
+  #     - 8082:8080
+  #   volumes:
+  #     - /home/mc:/data/files
+  #     - /home/mc/AppData/filebrowser:/config
+  #   environment:
+  #     - http://192.168.1.100:8082=/filebrowser
+  #   restart: unless-stopped 
+
+  # bazarr:
+  #   image: lscr.io/linuxserver/bazarr:latest
+  #   container_name: bazarr
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=100
+  #     - TZ=Asia/Manila
+  #   volumes:
+  #     - /home/mc/AppData/bazarr:/config
+  #     - /home/mc/Media/movies:/movies #optional
+  #     - /home/mc/Media/shows:/tv #optional
+  #   ports:
+  #     - 6767:6767
+  #   restart: unless-stopped
+
+  # duplicati:
+  #   image: lscr.io/linuxserver/duplicati:latest
+  #   container_name: duplicati
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=100
+  #     - TZ=Asia/Manila
+  #   volumes:
+  #     - /home/mc/AppData/duplicati/config:/config
+  #     - /home/mc/AppData/duplicati/backups:/backups
+  #     - /:/source
+  #   ports:
+  #     - 8200:8200
+  #   restart: unless-stopped
+
+  # syncthing:
+  #   image: lscr.io/linuxserver/syncthing:latest
+  #   container_name: syncthing
+  #   hostname: syncthing #optional
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=100
+  #     - TZ=Asia/Manila
+  #   volumes:
+  #     - /home/mc/AppData/syncthing:/config
+  #     - /home/mc:/data1 
+  #     - /home/mc:/data2
+  #   ports:
+  #     - 8384:8384
+  #     - 22000:22000/tcp
+  #     - 22000:22000/udp
+  #     - 21027:21027/udp
+  #   restart: unless-stopped
+
+  # radarr:
+  #   image: lscr.io/linuxserver/radarr:latest
+  #   container_name: radarr
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=100
+  #     - TZ=Asia/Manila
+  #   volumes:
+  #     - /home/mc/AppData/radarr:/config
+  #     - /home/mc/Media/movies:/movies #optional
+  #     - /home/mc/Media/torrents:/downloads #optional
+  #   ports:
+  #     - 7878:7878
+  #   restart: unless-stopped
+
+  # jackett:
+  #   image: lscr.io/linuxserver/jackett:latest
+  #   container_name: jackett
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=100
+  #     - TZ=Asia/Manila
+  #     - AUTO_UPDATE=true #optional
+  #   volumes:
+  #     - /home/mc/AppData/jackett:/config
+  #     - /home/mc/Media/torrents:/downloads
+  #   ports:
+  #     - 9117:9117
+  #   restart: unless-stopped
+
+  # sonarr:
+  #   image: lscr.io/linuxserver/sonarr:latest
+  #   container_name: sonarr
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=100
+  #     - TZ=Asia/Manila
+  #   volumes:
+  #     - /home/mc/AppData/sonarr:/config
+  #     - /home/mc/Media/shows:/tv #optional
+  #     - /home/mc/Media/torrents:/downloads #optional
+  #   ports:
+  #     - 8989:8989
+  #   restart: unless-stopped
+
+  # jellyfin:
+  #   image: lscr.io/linuxserver/jellyfin:latest 
+  #   container_name: jellyfin
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=100
+  #     - TZ=Asia/Manila  
+  #   volumes:
+  #     - /home/mc/AppData/jellyfin:/config
+  #     - /home/mc/Media/shows:/data/tvshows
+  #     - /home/mc/Media/movies:/data/movies
+  #   ports:
+  #     - 8096:8096
+  #     - 8920:8920 #optional
+  #     - 7359:7359/udp #optional
+  #     - 1900:1900/udp #optional
+  #   devices:
+  #     - /dev/dri:/dev/dri
+  #   restart: unless-stopped
+
+  # qbittorrent:
+  #   image: lscr.io/linuxserver/qbittorrent:latest 
+  #   container_name: qbittorrent
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=100
+  #     - TZ=Asia/Manila
+  #     - WEBUI_PORT=8080
+  #   volumes:
+  #     - /home/mc/AppData/qbittorrent:/config
+  #     - /home/mc/Media/torrents:/downloads
+  #   ports:
+  #     - 8080:8080
+  #     - 6881:6881
+  #     - 6881:6881/udp
+  #   restart: unless-stopped
+
+  # qbittorrentvpn:
+  #   image: markusmcnugen/qbittorrentvpn 
+  #   container_name: qbittorrentvpn
+  #   environment:
+  #     - PUID=0
+  #     - PGID=0
+  #     - TZ=Asia/Manila
+  #     - VPN_ENABLED=yes
+  #     - LAN_NETWORK=192.168.1.0/24
+  #     - NAME_SERVERS=8.8.8.8,8.8.4.4
+  #   volumes:
+  #     - /root/AppData/qbittorrent:/config
+  #     - /srv/dev-disk-by-uuid-49249ec1-c065-4648-a53d-bcfd368f4929/Torrents:/downloads
+  #   ports:
+  #     - 8080:8080
+  #     - 8999:8999
+  #     - 8999:8999/udp
+  #   restart: unless-stopped
+
+  # homepage:
+  #   image: ghcr.io/benphelps/homepage:latest
+  #   container_name: homepage
+  #   volumes:
+  #     - /home/mc/AppData/homepage:/app/config # Make sure your local config directory exists
+  #     - /var/run/docker.sock:/var/run/docker.sock # (optional) For docker integrations, see alternative methods
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=100	
+  #   ports: 
+  #     - 3000:3000
+  #   restart: unless-stopped
+
   web-dashboard:
-    image: b4bz/homer
+    image: b4bz/homer:latest
     #To build from source, comment previous line and uncomment below
     #build: .
     container_name: homer
@@ -15,32 +311,32 @@ services:
     user: 1000:1000 # default
     restart: unless-stopped 
       
-      #  os-container-0:
-      #    image: fedora:latest
-      #    container_name: fedora
-      #    restart: unless-stopped
-      #    tty: true
-      #
-      #  os-container-1:
-      #    image: kalilinux/kali-rolling 
-      #    container_name: kali 
-      #    restart: unless-stopped
-      #    tty: true
-      #
-      #  os-container-2:
-      #    image: debian:latest 
-      #    container_name: debian 
-      #    restart: unless-stopped
-      #    tty: true
-      #
-  os-container-3:
-    image: ubuntu:latest 
-    container_name: ubuntu 
-    restart: unless-stopped
-    tty: true
-    ports:
-      - 3000:3000
-      - 5000:5000
+  # os-container-0:
+  #   image: fedora:latest
+  #   container_name: fedora
+  #   restart: unless-stopped
+  #   tty: true
+  
+  # os-container-1:
+  #   image: kalilinux/kali-rolling 
+  #   container_name: kali 
+  #   restart: unless-stopped
+  #   tty: true
+  
+  # os-container-2:
+  #   image: debian:latest 
+  #   container_name: debian 
+  #   restart: unless-stopped
+  #   tty: tru
+
+  # os-container-3:
+  #   image: ubuntu:latest 
+  #   container_name: ubuntu 
+  #   restart: unless-stopped
+  #   tty: true
+  #   ports:
+  #     - 3000:3000
+  #     - 5000:5000
 
   #  db-admin:
   #  image: linuxserver/phpmyadmin:5.2.1
@@ -69,11 +365,6 @@ services:
         # volume for mysql config
         #- /home/ken/Docker/mysql/config/files/:/etc/mysql/mysql.conf.d/ # create my.cnf with [mysqld] \bind-address=0.0.0.0
 
-#  media-server:
-#    image: jellyfin
-#    container_name: jellyfin
-
-
 #  dev-os:
 #    image: ubuntu:latest
 #    container_name: ubuntu
@@ -82,14 +373,14 @@ services:
 #      - 8081:8080
 #    tty: true
 
-#  docker-manager:
-#    image: portainer/portainer-ce:latest
-#    container_name: portainer
-#    volumes:
-#      - /home/ken/Docker/portainer/data:/data
-#      - /var/run/docker.sock:/var/run/docker.sock
-#    ports:
-#      - 8000:8000 
-#      - 9443:9443
-#    restart: always
+  # docker-manager:
+  #   image: portainer/portainer-ce:latest
+  #   container_name: portainer
+  #   volumes:
+  #     - /home/ken/Docker/portainer/data:/data
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #   ports:
+  #     - 8000:8000 
+  #     - 9443:9443
+  #   restart: always
 
