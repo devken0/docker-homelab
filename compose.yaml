@@ -111,11 +111,11 @@ services:
       - "82:80/tcp"
     environment:
       TZ: 'Asia/Manila'
-      WEBPASSWORD: 'homenas_092714!(~_~)pihole'
+      WEBPASSWORD: 'EC2eh^kFT5MPdR7eSn7%'
     # Volumes store your data between container upgrades
     volumes:
-      - '/home/mc/AppData/pi-hole/etc-pihole:/etc/pihole'
-      - '/home/mc/AppData/pi-hole/etc-dnsmasq.d:/etc/dnsmasq.d'
+      - '/home/$USER/docker-homelab/pi-hole/etc-pihole:/etc/pihole'
+      - '/home/$USER/docker-homelab/pi-hole/etc-dnsmasq.d:/etc/dnsmasq.d'
     #   https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
     #cap_add:
       #- NET_ADMIN # Required if you are using Pi-hole as your DHCP server, else not needed
@@ -284,33 +284,85 @@ services:
   #     - 8999:8999/udp
   #   restart: unless-stopped
 
-  # homepage:
-  #   image: ghcr.io/benphelps/homepage:latest
-  #   container_name: homepage
-  #   volumes:
-  #     - /home/mc/AppData/homepage:/app/config # Make sure your local config directory exists
-  #     - /var/run/docker.sock:/var/run/docker.sock # (optional) For docker integrations, see alternative methods
-  #   environment:
-  #     - PUID=1000
-  #     - PGID=100	
-  #   ports: 
-  #     - 3000:3000
-  #   restart: unless-stopped
-
   web-dashboard:
     image: b4bz/homer:latest
-    #To build from source, comment previous line and uncomment below
+    #to build from source, comment previous line and uncomment below
     #build: .
     container_name: homer
     volumes:
       - /home/ken/docker-homelab/homer/assets/:/www/assets
     environment:
-      - INIT_ASSETS=1
+      - init_assets=1
     ports:
       - 8080:8080
     user: 1000:1000 # default
     restart: unless-stopped 
+
+  proxy:
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
+    container_name: npm
+    ports:
+      # These ports are in format <host-port>:<container-port>
+      - '80:80' # Public HTTP Port
+      - '443:443' # Public HTTPS Port
+      - '81:81' # Admin Web Port
+      # Add any other Stream port you want to expose
+      # - '21:21' # FTP
+    environment:
+      # Mysql/Maria connection parameters:
+      DB_MYSQL_HOST: "proxy-db"
+      DB_MYSQL_PORT: 3306
+      DB_MYSQL_USER: "npm"
+      DB_MYSQL_PASSWORD: "npm"
+      DB_MYSQL_NAME: "npm"
+      # Uncomment this if IPv6 is not enabled on your host
+      # DISABLE_IPV6: 'true'
+    volumes:
+      - proxy-data:/data
+      - proxy-data:/etc/letsencrypt
+    depends_on:
+      - proxy-db 
+
+  proxy-db:
+    image: 'jc21/mariadb-aria:latest'
+    restart: unless-stopped
+    container_name: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: 'npm'
+      MYSQL_DATABASE: 'npm'
+      MYSQL_USER: 'npm'
+      MYSQL_PASSWORD: 'npm'
+      MARIADB_AUTO_UPGRADE: '1'
+    volumes:
+      - proxy-db-data:/var/lib/mysql
+
+  # dashboard:
+    # image: lscr.io/linuxserver/heimdall:latest
+    # container_name: heimdall
+    # environment:
+      # - PUID=1000
+      # - PGID=1000
+      # - TZ=Asia/Manila
+    # volumes:
+      # - /home/$USER/docker-homelab/heimdall/config:/config
+    # ports:
+      # - 8080:80
+      # - 8443:443
+    # restart: unless-stopped
       
+  # homepage:
+    # image: ghcr.io/benphelps/homepage:latest
+    # container_name: homepage
+    # volumes:
+      # - /home/mc/AppData/homepage:/app/config # Make sure your local config directory exists
+      # - /var/run/docker.sock:/var/run/docker.sock # (optional) For docker integrations, see alternative methods
+    # environment:
+      # - PUID=1000 - PGID=1000
+    # ports: 
+      # - 3000:3000
+    # restart: unless-stopped
+
   # os-container-0:
   #   image: fedora:latest
   #   container_name: fedora
@@ -384,3 +436,6 @@ services:
   #     - 9443:9443
   #   restart: always
 
+volumes:
+  proxy-data:
+  proxy-db-data:
