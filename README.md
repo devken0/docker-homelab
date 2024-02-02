@@ -1,6 +1,6 @@
 ## Docker Homelab Setup
 
-### Install Debian as barebones server (no root, only sudo)
+### Install Debian as barebones server (no root, only sudo) / Ubuntu Server
 
 Optional proxy url: https://golden-centaur-20b77e.netlify.app/
 
@@ -13,6 +13,9 @@ sudo timedatectl set-timezone Asia/Manila
 # install packages
 sudo apt update
 sudo apt install cockpit tlp vim git curl upower ncdu
+curl -o setup-repos.sh https://raw.githubusercontent.com/webmin/webmin/master/setup-repos.sh
+sudo sh setup-repos.sh
+sudo apt-get install webmin --install-recommends
 
 # enable power saving
 sudo systemctl enable powertop --now
@@ -102,7 +105,7 @@ sudo sysctl -p
 sudo apt install nftables
 sudo systemctl enable nftables --now
 
-# set firewall rules
+# set firewall rules 
 sudo nft flush ruleset
 sudo nft add table ip firewall
 sudo nft add chain ip firewall input { type filter hook input priority 0 \; policy drop \; }
@@ -150,6 +153,9 @@ sudo sh ./get-docker.sh --dry-run
 # final
 curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
+
+sudo usermod -aG docker $USER
+newgrp docker
 ```
 
 ### Host server applications
@@ -164,7 +170,7 @@ dockerup
 
 ### Setup Samba
 
-Move to Ubuntu Server and install cockpit-file-sharing, cockpit-file-navigator, cockpit-identities.
+Install cockpit-file-sharing, cockpit-file-navigator, cockpit-identities by [45Drives](https://github.com/45Drives).
 
 ---
 
@@ -174,3 +180,4 @@ https://sunknudsen.com/privacy-guides
 https://sunknudsen.com/privacy-guides/how-to-configure-hardened-debian-server
 https://www.cyberciti.biz/faq/add-configure-set-up-static-ip-address-on-debianlinux/
 https://github.com/45Drives
+https://webmin.com/download/
