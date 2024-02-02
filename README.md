@@ -17,6 +17,8 @@ curl -o setup-repos.sh https://raw.githubusercontent.com/webmin/webmin/master/se
 sudo sh setup-repos.sh
 sudo apt-get install webmin --install-recommends
 
+https://github.com/svartalf/rust-battop
+
 # enable power saving
 sudo systemctl enable powertop --now
 sudo systemctl enable tlp --now
@@ -102,29 +104,32 @@ EOF
 sudo sysctl -p
 
 # enable and configure firewall
-sudo apt install nftables
-sudo systemctl enable nftables --now
+# sudo apt install nftables
+# sudo systemctl enable nftables --now
+sudo apt install firewalld 
+sudo systemctl enable firewalld --now
 
 # set firewall rules 
-sudo nft flush ruleset
-sudo nft add table ip firewall
-sudo nft add chain ip firewall input { type filter hook input priority 0 \; policy drop \; }
-sudo nft add rule ip firewall input iif lo accept
-sudo nft add rule ip firewall input iif != lo ip daddr 127.0.0.0/8 drop
-sudo nft add rule ip firewall input tcp dport ssh accept
-sudo nft add rule ip firewall input ct state established,related accept
-sudo nft add chain ip firewall forward { type filter hook forward priority 0 \; policy drop \; }
-sudo nft add chain ip firewall output { type filter hook output priority 0 \; policy drop \; }
-sudo nft add rule ip firewall output oif lo accept
-sudo nft add rule ip firewall output tcp dport { http, https } accept
-sudo nft add rule ip firewall output udp dport { domain, ntp } accept
-sudo nft add rule ip firewall output ct state established,related accept
-
+sudo firewall-cmd 
+# sudo nft flush ruleset
+# sudo nft add table ip firewall
+# sudo nft add chain ip firewall input { type filter hook input priority 0 \; policy drop \; }
+# sudo nft add rule ip firewall input iif lo accept
+# sudo nft add rule ip firewall input iif != lo ip daddr 127.0.0.0/8 drop
+# sudo nft add rule ip firewall input tcp dport ssh accept
+# sudo nft add rule ip firewall input ct state established,related accept
+# sudo nft add chain ip firewall forward { type filter hook forward priority 0 \; policy drop \; }
+# sudo nft add chain ip firewall output { type filter hook output priority 0 \; policy drop \; }
+# sudo nft add rule ip firewall output oif lo accept
+# sudo nft add rule ip firewall output tcp dport { http, https } accept
+# sudo nft add rule ip firewall output udp dport { domain, ntp } accept
+# sudo nft add rule ip firewall output ct state established,related accept
+# 
 # for ipv4 only network
-sudo nft add table ip6 firewall
-sudo nft add chain ip6 firewall input { type filter hook input priority 0 \; policy drop \; }
-sudo nft add chain ip6 firewall forward { type filter hook forward priority 0 \; policy drop \; }
-sudo nft add chain ip6 firewall output { type filter hook output priority 0 \; policy drop \; }
+# sudo nft add table ip6 firewall
+# sudo nft add chain ip6 firewall input { type filter hook input priority 0 \; policy drop \; }
+# sudo nft add chain ip6 firewall forward { type filter hook forward priority 0 \; policy drop \; }
+# sudo nft add chain ip6 firewall output { type filter hook output priority 0 \; policy drop \; }
 
 # make rules persistent
 sudo cat << "EOF" > /etc/nftables.conf
@@ -181,3 +186,4 @@ https://sunknudsen.com/privacy-guides/how-to-configure-hardened-debian-server
 https://www.cyberciti.biz/faq/add-configure-set-up-static-ip-address-on-debianlinux/
 https://github.com/45Drives
 https://webmin.com/download/
+https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-using-firewalld-on-centos-7
