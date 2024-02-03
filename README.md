@@ -17,7 +17,7 @@ curl -o setup-repos.sh https://raw.githubusercontent.com/webmin/webmin/master/se
 sudo sh setup-repos.sh
 sudo apt-get install webmin --install-recommends
 
-https://github.com/svartalf/rust-battop
+cd $HOME && git clone https://github.com/svartalf/rust-battop
 
 # enable power saving
 sudo systemctl enable powertop --now
@@ -35,12 +35,12 @@ alias ncdu="cd / && sudo ncdu"
 bat
 
 # edit logind.conf
-echo 'HandlePowerKey=suspend' | sudo tee -a /etc/systemd/logind.conf
-echo 'HandleSuspendKey=suspend' | sudo tee -a /etc/systemd/logind.conf
-echo 'HandleHibernateKey=suspend' | sudo tee -a /etc/systemd/logind.conf
-echo 'HandleLidSwitch=ignore' | sudo tee -a /etc/systemd/logind.conf
-echo 'HandleLidSwitchExternalPower=ignore' | sudo tee -a /etc/systemd/logind.conf
-echo 'HandleLidSwitchDocked=ignore' | sudo tee -a /etc/systemd/logind.conf
+echo 'HandlePowerKey=suspend
+HandleSuspendKey=suspend
+HandleHibernateKey=suspend
+HandleLidSwitch=ignore
+HandleLidSwitchExternalPower=ignore
+HandleLidSwitchDocked=ignore' | sudo tee -a /etc/systemd/logind.conf
 sudo systemctl restart systemd-logind
 
 # set static ip
@@ -48,10 +48,37 @@ sudo cp /etc/network/interfaces ~/interfaces.bak
 sudo vim /etc/network/interfaces # remove dhcp and allow-hotplug line, change to auto [interface]
 sudo systemctl restart networking
 
+# enable hibernation
+sudo fallocate -l 6144m /swapfile
+sudo mkswap /swapfile
+sudo chmod 600 /swapfile
+echo '/swapfile   swap    swap    defaults        0       0 ' | sudo tee -a /etc/fstab
+sudo sysctl -w vm.swappiness=1
+echo 'vm.swappiness=1' | sudo tee -a /etc/sysctl.d/local.conf
+sudo swapon /swapfile
+# get root UUID
+sudo findmnt / -o UUID -n
+# get swap offset
+sudo filefrag -v /swapfile|awk 'NR==4{gsub(/\./,"");print $4;}'
+
 # update grub
 sudo sed -i -E 's/^GRUB_CMDLINE_LINUX_DEFAULT=/#GRUB_CMDLINE_LINUX_DEFAULT=/' /etc/default/grub
-echo 'GRUB_CMDLINE_LINUX_DEFAULT="consoleblank=120"' | sudo tee -a /etc/default/grub
+# set proper resume and resume_offset values first
+echo 'GRUB_CMDLINE_LINUX_DEFAULT="consoleblank=120 resume=UUID=xxxx resume_offset=yyyy"' | sudo tee -a /etc/default/grub
+sudo sed -i '/RESUME=UUID/I d' /etc/initramfs-tools/conf.d/resume
+echo 'RESUME=UUID=xxxx' | sudo tee -a /etc/initramfs-tools/conf.d/resume
 sudo update-grub
+sudo update-initramfs -k all -u
+sudo systemctl hibernate # testing
+
+sudo vim /etc/UPower/UPower.conf
+# replicate this settings for power management  
+#UsePercentageForPolicy=true
+#PercentageLow=20
+#PercentageCritical=10
+#PercentageAction=10
+#CriticalPowerAction=Hibernate
+sudo systemctl restart upower
 ```
 
 ### Secure server
@@ -171,6 +198,15 @@ git config --global user.email "ken@homelab.com"
 git clone https://github.com/devken0/docker-homelab.git
 compose
 dockerup
+
+# set dns to pi-hole
+sudo sed -i '/nameserver/I d' /etc/resolv.conf
+echo 'nameserver 127.0.0.1' | sudo tee -a /etc/resolv.conf 
+
+# modify cockpit.conf for nginx
+echo '[WebService]
+AllowUnencrypted = True
+Origins=http://admin.sc3 http://192.168.1.100:9090' | sudo tee -a /etc/cockpit/cockpit.conf 
 ```
 
 ### Setup Samba
