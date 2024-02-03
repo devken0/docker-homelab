@@ -17,7 +17,8 @@ curl -o setup-repos.sh https://raw.githubusercontent.com/webmin/webmin/master/se
 sudo sh setup-repos.sh
 sudo apt-get install webmin --install-recommends
 
-cd $HOME && git clone https://github.com/svartalf/rust-battop
+wget -O $HOME/battop https://github.com/svartalf/rust-battop/releases/download/v0.2.4/battop-v0.2.4-x86_64-unknown-linux-gnu
+sudo install battop /usr/local/bin/battop
 
 # enable power saving
 sudo systemctl enable powertop --now
