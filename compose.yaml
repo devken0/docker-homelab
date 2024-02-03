@@ -310,6 +310,8 @@ services:
       # Add any other Stream port you want to expose
       # - '21:21' # FTP
     environment:
+      PUID: 1000
+      GUID: 1000
       # Mysql/Maria connection parameters:
       DB_MYSQL_HOST: "proxy-db"
       DB_MYSQL_PORT: 3306
