@@ -120,8 +120,9 @@ alias wbat='watch upower -i /org/freedesktop/UPower/devices/battery_BAT0'
 alias .bashrc="vim /home/$USER/.bashrc; source $HOME/.bashrc; cp $HOME/.bashrc $HOME/docker-homelab/.bashrc.bak"
 alias dockerup="cd /home/$USER/docker-homelab && docker compose up -d"
 alias ncdu="cd / && sudo ncdu"
+alias lz="lazydocker"
 #alias nftables.conf="sudo vim /etc/nftables.conf; sudo systemctl restart nftables; sudo cp /etc/nftables.conf $HOME/docker-homelab/nftables.conf.bak"  
-alias interfaces="sudo vim /etc/network/interfaces && sudo cp /etc/network/interfaces $HOME/docker-homelab/interfaces.bak"
+#alias interfaces="sudo vim /etc/network/interfaces && sudo cp /etc/network/interfaces $HOME/docker-homelab/interfaces.bak"
 #alias code="docker exec ubuntu /bin/bash -c code-server"
 
 bat
