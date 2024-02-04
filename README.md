@@ -13,12 +13,18 @@ sudo timedatectl set-timezone Asia/Manila
 # install packages
 sudo apt update
 sudo apt install cockpit tlp vim git curl upower ncdu
+
+# webmin
 curl -o setup-repos.sh https://raw.githubusercontent.com/webmin/webmin/master/setup-repos.sh
 sudo sh setup-repos.sh
 sudo apt-get install webmin --install-recommends
 
+# battop
 wget -O $HOME/battop https://github.com/svartalf/rust-battop/releases/download/v0.2.4/battop-v0.2.4-x86_64-unknown-linux-gnu
-sudo install battop /usr/local/bin/battop
+sudo install battop $HOME/.local/bin/battop
+
+# lazydocker
+curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
 
 # enable power saving
 sudo systemctl enable powertop --now
