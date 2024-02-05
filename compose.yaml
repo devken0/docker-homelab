@@ -1,6 +1,17 @@
 version: '3.5'
 services:
 
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homepage
+    environment:
+      PUID: 1000 
+      PGID: 1000 
+    volumes:
+      - $HOME/docker-homelab/homepage/config:/app/config # Make sure your local config directory exists
+      - /var/run/docker.sock:/var/run/docker.sock:ro # optional, for docker integrations
+    restart: unless-stopped
+
   docker-manager:
     image: portainer/portainer-ce:latest
     container_name: portainer
