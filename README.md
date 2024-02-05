@@ -10,9 +10,15 @@ Optional proxy url: https://golden-centaur-20b77e.netlify.app/
 # set timezone
 sudo timedatectl set-timezone Asia/Manila
 
+# set hosts
+sudo sed -i -E 's/^127.0.1.1./#127.0.1.1/' /etc/hosts
+echo '127.0.1.1     homesc3.duckdns.org     sc3' | sudo tee -a /etc/hosts
+
 # install packages
 sudo apt update
-sudo apt install cockpit tlp vim git curl upower ncdu
+sudo apt install cockpit tlp vim git curl upower ncdu glances htop lm-sensors
+
+sudo sensors-detect
 
 # webmin
 curl -o setup-repos.sh https://raw.githubusercontent.com/webmin/webmin/master/setup-repos.sh
@@ -31,15 +37,6 @@ sudo systemctl enable powertop --now
 sudo systemctl enable tlp --now
 
 # add lines to .bashrc
-alias v="vim"
-alias compose="cd /home/$USER/docker-homelab && vim compose.yaml"
-alias bat='upower -i /org/freedesktop/UPower/devices/battery_BAT0| grep -E "state|to full|percentage"'
-alias wbat='watch upower -i /org/freedesktop/UPower/devices/battery_BAT0'
-alias .bashrc="nvim /home/$USER/.bashrc"
-alias dockerup="cd /home/$USER/docker-homelab && docker compose up -d"
-alias ncdu="cd / && sudo ncdu"
-#alias code="docker exec ubuntu /bin/bash -c code-server"
-bat
 
 # edit logind.conf
 echo 'HandlePowerKey=suspend
@@ -72,8 +69,7 @@ sudo filefrag -v /swapfile|awk 'NR==4{gsub(/\./,"");print $4;}'
 sudo sed -i -E 's/^GRUB_CMDLINE_LINUX_DEFAULT=/#GRUB_CMDLINE_LINUX_DEFAULT=/' /etc/default/grub
 # set proper resume and resume_offset values first
 echo 'GRUB_CMDLINE_LINUX_DEFAULT="consoleblank=120 resume=UUID=xxxx resume_offset=yyyy"' | sudo tee -a /etc/default/grub
-sudo sed -i '/RESUME=UUID/I d' /etc/initramfs-tools/conf.d/resume
-echo 'RESUME=UUID=xxxx' | sudo tee -a /etc/initramfs-tools/conf.d/resume
+sudo sed -i 's/RESUME=UUID.*/RESUME=UUID=xxxx/' /etc/initramfs-tools/conf.d/resume
 sudo update-grub
 sudo update-initramfs -k all -u
 sudo systemctl hibernate # testing
@@ -213,7 +209,7 @@ echo 'nameserver 127.0.0.1' | sudo tee -a /etc/resolv.conf
 # modify cockpit.conf for nginx
 echo '[WebService]
 AllowUnencrypted = True
-Origins=http://admin.sc3 http://192.168.1.100:9090' | sudo tee -a /etc/cockpit/cockpit.conf 
+Origins=http://cockpit.lan http://cockpit.homesc3.duckdns.org http://homesc3.duckdns.org:9090 ' | sudo tee -a /etc/cockpit/cockpit.conf 
 ```
 
 ### Setup Samba
