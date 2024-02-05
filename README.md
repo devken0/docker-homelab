@@ -16,7 +16,10 @@ echo '127.0.1.1     homesc3.duckdns.org     sc3' | sudo tee -a /etc/hosts
 
 # install packages
 sudo apt update
-sudo apt install cockpit tlp vim git curl upower ncdu glances htop lm-sensors
+sudo apt install cockpit tlp vim git curl upower ncdu glances htop lm-sensors iotop
+
+# install netdata
+wget -O /tmp/netdata-kickstart.sh https://get.netdata.cloud/kickstart.sh && sh /tmp/netdata-kickstart.sh --stable-channel --disable-telemetry
 
 sudo sensors-detect
 
@@ -226,3 +229,4 @@ https://www.cyberciti.biz/faq/add-configure-set-up-static-ip-address-on-debianli
 https://github.com/45Drives
 https://webmin.com/download/
 https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-using-firewalld-on-centos-7
+https://learn.netdata.cloud/docs/installing/one-line-installer-for-all-linux-systems
