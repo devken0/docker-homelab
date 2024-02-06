@@ -10,6 +10,9 @@ Optional proxy url: https://golden-centaur-20b77e.netlify.app/
 # set timezone
 sudo timedatectl set-timezone Asia/Manila
 
+# change password
+passwd
+
 # set hosts
 sudo sed -i -E 's/^127.0.1.1./#127.0.1.1/' /etc/hosts
 echo '127.0.1.1     homesc3.duckdns.org     sc3' | sudo tee -a /etc/hosts
@@ -141,6 +144,8 @@ sudo sysctl -p
 # enable and configure firewall
 # sudo apt install nftables
 # sudo systemctl enable nftables --now
+sudo nft flush ruleset
+sudo apt autoremove --purge nftables
 sudo apt install firewalld 
 sudo systemctl enable firewalld --now
 
@@ -167,14 +172,14 @@ sudo firewall-cmd
 # sudo nft add chain ip6 firewall output { type filter hook output priority 0 \; policy drop \; }
 
 # make rules persistent
-sudo cat << "EOF" > /etc/nftables.conf
+#sudo cat << "EOF" > /etc/nftables.conf
 #!/usr/sbin/nft -f
-
-flush ruleset
-
-EOF
-
-sudo nft list ruleset >> /etc/nftables.conf
+#
+#flush ruleset
+#
+#EOF
+#
+#sudo nft list ruleset >> /etc/nftables.conf
 ```
 
 ### Install Docker Engine
@@ -232,3 +237,4 @@ https://github.com/45Drives
 https://webmin.com/download/
 https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-using-firewalld-on-centos-7
 https://learn.netdata.cloud/docs/installing/one-line-installer-for-all-linux-systems
+https://wiki.debian.org/nftables
