@@ -20,6 +20,8 @@ sudo apt install cockpit tlp vim git curl upower ncdu glances htop lm-sensors io
 
 # install netdata
 wget -O /tmp/netdata-kickstart.sh https://get.netdata.cloud/kickstart.sh && sh /tmp/netdata-kickstart.sh --stable-channel --disable-telemetry
+echo 'bind socket to IP = 192.168.1.100' | sudo tee -a /etc/netdata/netdata.conf
+sudo systemctl restart netdata
 
 sudo sensors-detect
 
