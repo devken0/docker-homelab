@@ -40,6 +40,11 @@ sudo install battop $HOME/.local/bin/battop
 # lazydocker
 curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
 
+# disable packagekit
+sudo systemctl stop packagekit
+sudo systemctl mask packagekit
+dpkg-divert --divert /etc/PackageKit/20packagekit.distrib --rename  /etc/apt/apt.conf.d/20packagekit
+
 # enable power saving
 sudo systemctl enable powertop --now
 sudo systemctl enable tlp --now
@@ -238,3 +243,4 @@ https://webmin.com/download/
 https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-using-firewalld-on-centos-7
 https://learn.netdata.cloud/docs/installing/one-line-installer-for-all-linux-systems
 https://wiki.debian.org/nftables
+https://medium.com/opsops/how-to-disable-packagekit-f935207044c1
