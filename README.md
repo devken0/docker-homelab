@@ -95,6 +95,21 @@ sudo vim /etc/UPower/UPower.conf
 #PercentageAction=10
 #CriticalPowerAction=Hibernate
 sudo systemctl restart upower
+
+# partition and mount drives
+# list drives and partitions
+lsblk
+sudo fdisk -l
+# partition drive
+sudo fdisk /dev/sdX # type 'n' to create new partition then 'Enter' for defaults then 'w' to write
+sudo mkfs.ext4 /dev/sdXY
+# mounting drive
+sudo mkdir /mnt/mydrive
+sudo mount /dev/sdXY /mnt/mydrive
+# mount at startup
+echo '/dev/sdXY   /mnt/mydrive    ext4    defaults        0       0 ' | sudo tee -a /etc/fstab
+# unmounting drive
+sudo umount /mnt/mydrive
 ```
 
 ### Secure server
