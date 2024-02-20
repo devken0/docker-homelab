@@ -246,6 +246,15 @@ Origins=http://cockpit.lan http://cockpit.homesc3.duckdns.org http://homesc3.duc
 
 Install cockpit-file-sharing, cockpit-file-navigator, cockpit-identities by [45Drives](https://github.com/45Drives).
 
+### Additional Configuration for Proxmox
+
+```bash
+# enable wake-on-lan
+ethtool enp1s0 | grep "Wake-on"
+ethtool -s enp1s0 wol g
+echo 'post-up /usr/sbin/ethtool -s enp1s0 wol g' | sudo tee -a /etc/sysctl.d/local.conf
+```
+
 ---
 
 Credits
