@@ -122,6 +122,7 @@ openssl rand -base64 24
 
 # windows
 ssh-keygen -t ed25519 -f $HOME\.ssh\id_ed25519
+scp C:\Users\Ken\.ssh\id_ed25519.pub user@192.168.1.x:/home/$USER/.ssh/authorized_keys
 
 # linux
 ssh-keygen -t ed25519
