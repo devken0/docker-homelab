@@ -1,0 +1,20 @@
+version: "3.8"
+services:
+  npm:
+    image: jc21/nginx-proxy-manager:latest
+    restart: unless-stopped
+    container_name: npm
+    ports:
+      - 80:80 # Public HTTP Port
+      - 443:443 # Public HTTPS Port
+      #- 81:81 # Comment out after creating a proxy host for the service
+    environment:
+      DISABLE_IPV6: "true"
+    networks:
+      - dockge_default
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+networks:
+  dockge_default:
+    external: true
