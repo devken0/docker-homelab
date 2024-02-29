@@ -10,6 +10,8 @@ services:
       #- 81:81 # Comment out after creating a proxy host for the service
     environment:
       DISABLE_IPV6: "true"
+      PUID: 1000
+      PGID: 1000
     networks:
       - dockge_default
     volumes:
