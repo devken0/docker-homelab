@@ -14,7 +14,7 @@ cd "$MONITORED_DIR" || exit
 # Function to check for changes and push to GitHub
 check_and_push_changes() {
     # Check for modified compose.yaml files
-    changed_files=$(git status --porcelain | grep 'compose.yaml' | awk '{print $2}')
+    changed_files=$(git status --porcelain | grep -E '^(M|??) .+compose\.yaml' | awk '{print $2}')
 
     # If there are changes, add them, commit, and push
     if [ -n "$changed_files" ]; then
