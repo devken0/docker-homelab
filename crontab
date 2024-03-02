@@ -1,3 +1,2 @@
-# add this to crontab by running `crontab -e`
 */5 * * * * /home/$USER/docker-homelab/change-detector.sh >/dev/null 2>&1
 
