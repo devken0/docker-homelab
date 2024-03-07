@@ -1,0 +1,35 @@
+version: "3.8"
+services:
+  npm:
+    image: jc21/nginx-proxy-manager:latest
+    restart: always
+    container_name: npm
+    ports:
+      - 80:80 # Public HTTP Port
+      - 443:443 # Public HTTPS Port
+      - 81:81 # Comment out after creating a proxy host for the service
+    environment:
+      DISABLE_IPV6: "true"
+      PUID: 1000
+      PGID: 1000
+    volumes:
+      - ./nginxproxymanager/data:/data
+      - ./nginxproxymanager/letsencrypt:/etc/letsencrypt
+  yacht:
+    container_name: yacht
+    restart: always
+    ports:
+      - 8000:8000
+    volumes:
+      - ./yacht/config:/config
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      PUID: 1000
+      GUID: 1000
+    image: selfhostedpro/yacht    
+  watchtower:
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - WATCHTOWER_CLEANUP=true
