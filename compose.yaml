@@ -198,8 +198,6 @@ services:
       APACHE_IP_BINDING: "0.0.0.0"
       NEXTCLOUD_DATADIR: "/home/ken/ncdata"
       NEXTCLOUD_MOUNT: "/mnt/slow"
-      PUID: 1000
-      PGID: 1000
       SKIP_DOMAIN_VALIDATION: true
       NEXTCLOUD_ENABLE_DRI_DEVICE: true
     volumes:
