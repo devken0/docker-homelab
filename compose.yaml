@@ -42,7 +42,7 @@ services:
       - nextcloud-redis
 
   nextcloud-web:
-    build: ./web
+    build: ./nextcloud-web
     restart: always
       #    ports:
       #      - 127.0.0.1:8080:80
