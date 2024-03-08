@@ -3,7 +3,7 @@ version: "3.8"
 networks:
   npm-net:
     driver: bridge
-  nextcloud-aio
+  nextcloud-aio:
     external: true
 
 volumes:
