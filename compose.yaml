@@ -71,6 +71,7 @@ services:
       - ./nginxproxymanager/letsencrypt:/etc/letsencrypt
     networks:
       - npm-net 
+      - nextcloud-aio
 
   syncthing:
     image: lscr.io/linuxserver/syncthing:latest
