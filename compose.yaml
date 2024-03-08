@@ -4,11 +4,61 @@ networks:
   npm-net:
     driver: bridge
 
-      #volumes:
+volumes:
+  nextcloud:
+  nextcloud-db:
       #  nextcloud_aio_mastercontainer:
       #    name: nextcloud_aio_mastercontainer
       
 services:
+
+  nextcloud-db:
+    image: postgres:alpine
+    restart: always
+    volumes:
+      - nextcloud-db:/var/lib/postgresql/data:z
+    env_file:
+      - nextcloud-db.env
+
+  nextcloud-redis:
+    image: redis:alpine
+    restart: always
+
+  nextcloud:
+    image: nextcloud:fpm-alpine
+    restart: always
+    volumes:
+      - nextcloud:/var/www/html:z
+    environment:
+      - POSTGRES_HOST=nextcloud-db
+      - REDIS_HOST=nextcloud-redis
+    env_file:
+      - nextcloud-db.env
+    depends_on:
+      - nextcloud-db
+      - nextcloud-redis
+
+  nextcloud-web:
+    build: ./web
+    restart: always
+    ports:
+      - 127.0.0.1:8080:80
+    volumes:
+      - nextcloud:/var/www/html:z,ro
+    depends_on:
+      - nextcloud 
+    networks:
+      - npm-net
+
+  nextcloud-cron:
+    image: nextcloud:fpm-alpine
+    restart: always
+    volumes:
+      - nextcloud:/var/www/html:z
+    entrypoint: /cron.sh
+    depends_on:
+      - nextcloud-db
+      - nextcloud-redis
 
   omada-controller:
     container_name: omada-controller
