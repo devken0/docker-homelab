@@ -5,63 +5,10 @@ networks:
     driver: bridge
 
 volumes:
-  nextcloud:
-  nextcloud-db:
-      #  nextcloud_aio_mastercontainer:
-      #    name: nextcloud_aio_mastercontainer
+  nextcloud_aio_mastercontainer:
+    name: nextcloud_aio_mastercontainer
       
 services:
-
-  nextcloud-db:
-    image: postgres:alpine
-    restart: always
-    volumes:
-      - nextcloud-db:/var/lib/postgresql/data:z
-    env_file:
-      - nextcloud-db.env
-
-  nextcloud-redis:
-    image: redis:alpine
-    restart: always
-
-  nextcloud:
-    image: nextcloud:fpm-alpine
-    restart: always
-    volumes:
-      - nextcloud:/var/www/html:z
-      - /home/ken/ncdata:/var/www/html/data
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - POSTGRES_HOST=nextcloud-db
-      - REDIS_HOST=nextcloud-redis
-    env_file:
-      - nextcloud-db.env
-    depends_on:
-      - nextcloud-db
-      - nextcloud-redis
-
-  nextcloud-web:
-    build: ./nextcloud-web
-    restart: always
-    ports:
-      - 127.0.0.1:8080:80
-    volumes:
-      - nextcloud:/var/www/html:z,ro
-    depends_on:
-      - nextcloud 
-    networks:
-      - default
-
-  nextcloud-cron:
-    image: nextcloud:fpm-alpine
-    restart: always
-    volumes:
-      - nextcloud:/var/www/html:z
-    entrypoint: /cron.sh
-    depends_on:
-      - nextcloud-db
-      - nextcloud-redis
 
   omada-controller:
     container_name: omada-controller
@@ -239,27 +186,27 @@ services:
     networks:
       - npm-net
 
-        #  nextcloud-aio-mastercontainer:
-        #    image: nextcloud/all-in-one:latest
-        #    container_name: nextcloud-aio-mastercontainer
-        #    init: true
-        #    restart: always
-        #    ports:
-        #      - 8080:8080
-        #    environment:
-        #      APACHE_PORT: 11000
-        #      APACHE_IP_BINDING: "127.0.0.1"
-        #      NEXTCLOUD_DATADIR: "/home/ken/ncdata"
-        #      NEXTCLOUD_MOUNT: "/mnt/slow"
-        #      PUID: 1000
-        #      PGID: 1000
-        #      SKIP_DOMAIN_VALIDATION: true
-        #      NEXTCLOUD_ENABLE_DRI_DEVICE: true
-        #    volumes:
-        #      - nextcloud_aio_mastercontainer:/mnt/docker-aio-config
-        #      - /var/run/docker.sock:/var/run/docker.sock:ro
-        #    networks:
-        #      - npm-net
+  nextcloud-aio-mastercontainer:
+    image: nextcloud/all-in-one:latest
+    container_name: nextcloud-aio-mastercontainer
+    init: true
+    restart: always
+    ports:
+      - 8080:8080
+    environment:
+      APACHE_PORT: 11000
+      APACHE_IP_BINDING: "0.0.0.0"
+      NEXTCLOUD_DATADIR: "/home/ken/ncdata"
+      NEXTCLOUD_MOUNT: "/mnt/slow"
+      PUID: 1000
+      PGID: 1000
+      SKIP_DOMAIN_VALIDATION: true
+      NEXTCLOUD_ENABLE_DRI_DEVICE: true
+    volumes:
+      - nextcloud_aio_mastercontainer:/mnt/docker-aio-config
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - npm-net
 
   ntfy:
     image: binwiederhier/ntfy
