@@ -1,1 +1,6 @@
-.env
+*.env
+*.log
+*-
+*/**
+github_commit_script.sh
+
