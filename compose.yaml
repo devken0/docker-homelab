@@ -29,7 +29,10 @@ services:
     restart: always
     volumes:
       - nextcloud:/var/www/html:z
+      - /home/ken/ncdata:/var/www/html/data
     environment:
+      - PUID=1000
+      - PGID=1000
       - POSTGRES_HOST=nextcloud-db
       - REDIS_HOST=nextcloud-redis
     env_file:
@@ -159,7 +162,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       PUID: 1000
-      GUID: 1000
+      PGID: 1000
     image: selfhostedpro/yacht    
     networks:
       - npm-net
@@ -186,7 +189,7 @@ services:
       WEBPASSWORD: $PIHOLE_WEBPASSWORD 
       DNSMASQ_LISTENING: all
       PUID: 1000
-      GUID: 1000
+      PGID: 1000
     # Volumes store your data between container upgrades
     volumes:
       - './pihole/etc-pihole:/etc/pihole'
@@ -231,7 +234,7 @@ services:
       - LOG_CALLER=hidden
       - SHOUTRRR_ADDRESSES=
       - PUID=1000
-      - GUID=1000
+      - PGID=1000
     restart: always
     networks:
       - npm-net
@@ -249,7 +252,7 @@ services:
         #      NEXTCLOUD_DATADIR: "/home/ken/ncdata"
         #      NEXTCLOUD_MOUNT: "/mnt/slow"
         #      PUID: 1000
-        #      GUID: 1000
+        #      PGID: 1000
         #      SKIP_DOMAIN_VALIDATION: true
         #      NEXTCLOUD_ENABLE_DRI_DEVICE: true
         #    volumes:
