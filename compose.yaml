@@ -55,8 +55,8 @@ services:
         #- 81:81 # Comment out after creating a proxy host for the service
     environment:
       DISABLE_IPV6: "true"
-      PUID: 1000 
-      PGID: 1000
+        #PUID: 1000 
+        #PGID: 1000
     volumes:
       - ./nginxproxymanager/data:/data
       - ./nginxproxymanager/letsencrypt:/etc/letsencrypt
@@ -73,14 +73,14 @@ services:
       - TZ=Asia/Manila
     volumes:
       - ./syncthing:/config
-      - /home/ken/data/App-Backups:/data1 
-      - /home/ken/data/App-Exports:/data2
-      - /home/ken/data/Documents:/data3
-      - /home/ken/data/DCIM:/data4
-      - /home/ken/data/Github:/data5
-      - /home/ken/data/Music:/data6
-      - /home/ken/data/Pictures:/data7
-      - /home/ken/data/Sounds:/data8
+      - /home/ken/ncdata/admin/files/App-Backups:/data1 
+      - /home/ken/ncdata/admin/files/App-Exports:/data2
+      - /home/ken/ncdata/admin/files/Documents:/data3
+      - /home/ken/ncdata/admin/files/DCIM:/data4
+      - /home/ken/ncdata/admin/files/Github:/data5
+      - /home/ken/ncdata/admin/files/Music:/data6
+      - /home/ken/ncdata/admin/files/Pictures:/data7
+      - /home/ken/ncdata/admin/files/Sounds:/data8
     ports:
       #- 8384:8384
       - 22000:22000/tcp
@@ -183,7 +183,7 @@ services:
     init: true
     restart: always
     ports:
-      - "8080:8080"
+      - 8080:8080
     environment:
       APACHE_PORT: 11000
       APACHE_IP_BINDING: "127.0.0.1"
@@ -192,6 +192,7 @@ services:
       PUID: 1000
       GUID: 1000
       SKIP_DOMAIN_VALIDATION: true
+      NEXTCLOUD_ENABLE_DRI_DEVICE: true
     volumes:
       - nextcloud_aio_mastercontainer:/mnt/docker-aio-config
       - /var/run/docker.sock:/var/run/docker.sock:ro
