@@ -52,7 +52,7 @@ services:
     ports:
       - 80:80 # Public HTTP Port
       - 443:443 # Public HTTPS Port
-      #- 81:81 # Comment out after creating a proxy host for the service
+        #- 81:81 # Comment out after creating a proxy host for the service
     environment:
       DISABLE_IPV6: "true"
       PUID: 1000 
@@ -82,7 +82,7 @@ services:
       - /home/ken/data/Pictures:/data7
       - /home/ken/data/Sounds:/data8
     ports:
-      - 8384:8384
+      #- 8384:8384
       - 22000:22000/tcp
       - 22000:22000/udp
       - 21027:21027/udp
@@ -177,26 +177,26 @@ services:
     networks:
       - npm-net
 
-        #  nextcloud-aio-mastercontainer:
-        #    image: nextcloud/all-in-one:latest
-        #    container_name: nextcloud-aio-mastercontainer
-        #    init: true
-        #    restart: always
-        #    ports:
-        #      - "8080:8080"
-        #    environment:
-        #      APACHE_PORT: 11000
-        #      APACHE_IP_BINDING: "127.0.0.1"
-        #      NEXTCLOUD_DATADIR: "/home/ken/data"
-        #      NEXTCLOUD_MOUNT: "/mnt/slow"
-        #      PUID: 1000
-        #      GUID: 1000
-        #      SKIP_DOMAIN_VALIDATION: true
-        #    volumes:
-        #      - nextcloud_aio_mastercontainer:/mnt/docker-aio-config
-        #      - /var/run/docker.sock:/var/run/docker.sock:ro
-        #    networks:
-        #      - npm-net
+  nextcloud-aio-mastercontainer:
+    image: nextcloud/all-in-one:latest
+    container_name: nextcloud-aio-mastercontainer
+    init: true
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      APACHE_PORT: 11000
+      APACHE_IP_BINDING: "127.0.0.1"
+      NEXTCLOUD_DATADIR: "/home/ken/ncdata"
+      NEXTCLOUD_MOUNT: "/mnt/slow"
+      PUID: 1000
+      GUID: 1000
+      SKIP_DOMAIN_VALIDATION: true
+    volumes:
+      - nextcloud_aio_mastercontainer:/mnt/docker-aio-config
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - npm-net
 
   ntfy:
     image: binwiederhier/ntfy
@@ -343,9 +343,9 @@ networks:
   npm-net:
     driver: bridge
 
-      #volumes:
-      #  nextcloud_aio_mastercontainer:
-      #    name: nextcloud_aio_mastercontainer
+volumes:
+  nextcloud_aio_mastercontainer:
+    name: nextcloud_aio_mastercontainer
 
   #  uptime-kuma:
   #    image: louislam/uptime-kuma:1
