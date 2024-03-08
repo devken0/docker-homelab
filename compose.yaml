@@ -44,13 +44,14 @@ services:
   nextcloud-web:
     build: ./nextcloud-web
     restart: always
-      #    ports:
-      #      - 127.0.0.1:8080:80
+    ports:
+      - 127.0.0.1:8080:80
     volumes:
       - nextcloud:/var/www/html:z,ro
     depends_on:
       - nextcloud 
     networks:
+      - default
       - npm-net
 
   nextcloud-cron:
