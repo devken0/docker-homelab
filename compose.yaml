@@ -3,13 +3,14 @@ version: "3.8"
 networks:
   npm-net:
     driver: bridge
+  nextcloud-aio:
+    external: true
 
 volumes:
   nextcloud_aio_mastercontainer:
     name: nextcloud_aio_mastercontainer
       
 services:
-
   omada-controller:
     container_name: omada-controller
     image: mbentley/omada-controller:latest
@@ -53,7 +54,6 @@ services:
       - ./omada/logs:/opt/tplink/EAPController/logs
     networks:
       - npm-net 
-
   npm:
     image: jc21/nginx-proxy-manager:latest
     restart: always
@@ -71,7 +71,7 @@ services:
       - ./nginxproxymanager/letsencrypt:/etc/letsencrypt
     networks:
       - npm-net 
-
+      - nextcloud-aio
   syncthing:
     image: lscr.io/linuxserver/syncthing:latest
     container_name: syncthing
@@ -98,7 +98,6 @@ services:
     restart: unless-stopped
     networks:
       - npm-net
-
   yacht:
     container_name: yacht
     restart: always
@@ -113,7 +112,6 @@ services:
     image: selfhostedpro/yacht    
     networks:
       - npm-net
-
   watchtower:
     image: containrrr/watchtower
     volumes:
@@ -122,7 +120,6 @@ services:
       - WATCHTOWER_CLEANUP=true
     networks:
       - npm-net
-
   pihole:
     container_name: pihole
     image: pihole/pihole:latest
@@ -147,7 +144,6 @@ services:
     restart: unless-stopped
     networks:
       npm-net:
-
   ddns-updater:
     image: qmcgaw/ddns-updater
     container_name: ddns-updater
@@ -185,7 +181,6 @@ services:
     restart: always
     networks:
       - npm-net
-
   nextcloud-aio-mastercontainer:
     image: nextcloud/all-in-one:latest
     container_name: nextcloud-aio-mastercontainer
@@ -195,7 +190,7 @@ services:
       - 8080:8080
     environment:
       APACHE_PORT: 11000
-      APACHE_IP_BINDING: "192.168.1.200"
+      APACHE_IP_BINDING: "0.0.0.0"
       NEXTCLOUD_DATADIR: "/home/ken/ncdata"
       NEXTCLOUD_MOUNT: "/mnt/slow"
       SKIP_DOMAIN_VALIDATION: true
@@ -205,6 +200,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       - npm-net
+      - nextcloud-aio
 
   ntfy:
     image: binwiederhier/ntfy
