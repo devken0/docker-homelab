@@ -15,8 +15,8 @@ services:
     image: bbernhard/signal-cli-rest-api:latest
     container_name: signal-cli-rest-api
     environment:
-      - MODE=native #supported modes: json-rpc, native, normal
-      - AUTO_RECEIVE_SCHEDULE=0 22 * * * #enable this parameter on demand (see description below)
+      - MODE=json-rpc #supported modes: json-rpc, native, normal
+        #      - AUTO_RECEIVE_SCHEDULE=0 22 * * * #enable this parameter on demand (see description below)
       - SIGNAL_CLI_UID=1000
       - SIGNAL_CLI_GID=1000
         #      - PORT=8081
