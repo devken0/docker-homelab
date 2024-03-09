@@ -11,6 +11,26 @@ volumes:
     name: nextcloud_aio_mastercontainer
       
 services:
+  kasm:
+    image: lscr.io/linuxserver/kasm:latest
+    container_name: kasm
+    privileged: true
+    environment:
+      - KASM_PORT=443
+        #      - DOCKER_HUB_USERNAME=USER #optional
+        #      - DOCKER_HUB_PASSWORD=PASS #optional
+      - DOCKER_MTU=1500 #optional
+    volumes:
+      - ./kasm:/opt
+        #      - /path/to/profiles:/profiles #optional
+        #      - /dev/input:/dev/input #optional
+        #      - /run/udev/data:/run/udev/data #optional
+    ports:
+      - 3000:3000
+      - 8443:443
+    restart: unless-stopped
+    networks:
+      - npm-net
   signal-cli-rest-api:
     image: bbernhard/signal-cli-rest-api:latest
     container_name: signal-cli-rest-api
@@ -177,8 +197,8 @@ services:
         hard: 8192
     stop_grace_period: 60s
     ports:
-      #- 8088:8088/tcp
-      #- 8043:8043/tcp
+      - 8088:8088/tcp
+      - 8043:8043/tcp
       - 9191:9191/tcp
       - 9444:9444/tcp
       - 27001:27001/udp
