@@ -149,6 +149,7 @@ services:
       - ./data:/data
     networks:
       - npm-net
+    restart: unless-stopped
   omada-controller:
     container_name: omada-controller
     image: mbentley/omada-controller:latest
@@ -281,6 +282,7 @@ services:
       - WATCHTOWER_CLEANUP=true
     networks:
       - npm-net
+    restart: unless-stopped
   pihole:
     container_name: pihole
     image: pihole/pihole:latest
@@ -399,6 +401,7 @@ services:
       PGID: 1000
     networks:
       - npm-net
+    restart: unless-stopped
 
   changedetection:
       image: ghcr.io/dgtlmoon/changedetection.io
