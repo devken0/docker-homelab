@@ -82,7 +82,7 @@ services:
       - TZ=Asia/Manila
     volumes:
       - ./syncthing:/config
-      - /home/ken/test:/test
+      - $NEXTCLOUD_DATA_DIR/data1-App-Backups:/
         #      - /home/ken/ncdata/App-Backups:/data1-App-Backups
         #      - /home/ken//nextcloud/data/ken/files/App-Exports:/data2-App-Exports
         #      - /var/snap/nextcloud/common/nextcloud/data/ken/files/Documents:/data3
