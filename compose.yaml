@@ -14,6 +14,7 @@ services:
   photoprism:
     ## Use photoprism/photoprism:preview for testing preview builds:
     image: photoprism/photoprism:latest
+    container_name: photoprism
     ## Don't enable automatic restarts until PhotoPrism has been properly configured and tested!
     ## If the service gets stuck in a restart loop, this points to a memory, filesystem, network, or database issue:
     ## https://docs.photoprism.app/getting-started/troubleshooting/#fatal-server-errors
@@ -98,6 +99,7 @@ services:
   ## see https://docs.photoprism.app/getting-started/faq/#should-i-use-sqlite-mariadb-or-mysql
   mariadb:
     image: mariadb:11
+    container_name: photoprism-mariadb
     ## If MariaDB gets stuck in a restart loop, this points to a memory or filesystem issue:
     ## https://docs.photoprism.app/getting-started/troubleshooting/#fatal-server-errors
     restart: unless-stopped
@@ -135,6 +137,7 @@ services:
       - npm-net
   picoshare:
     image: mtlynch/picoshare
+    container_name: picoshare
     environment:
       - PORT=4001
       - PS_SHARED_SECRET=$PICOSHARE_PASSWORD # Change to any password
@@ -271,6 +274,7 @@ services:
       - npm-net
   watchtower:
     image: containrrr/watchtower
+    container_name: watchtower
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
@@ -399,7 +403,7 @@ services:
   changedetection:
       image: ghcr.io/dgtlmoon/changedetection.io
       container_name: changedetection
-      hostname: changedetection
+      hostname: minihomebox
       volumes:
         - ./changedetection:/datastore
 # Configurable proxy list support, see https://github.com/dgtlmoon/changedetection.io/wiki/Proxy-configuration#proxy-list-support
@@ -525,78 +529,6 @@ services:
   #    volumes:
   #      - /home/mc/Audio:/music:ro 
   #      - /home/mc/AppData/lms:/var/lms 
-  #    restart: unless-stopped
-  #
-  #  photoprism:
-  #    container_name: photoprism
-  #    image: photoprism/photoprism:latest
-  #    depends_on:
-  #      - photoprism_db 
-  #    security_opt:
-  #      - seccomp:unconfined
-  #      - apparmor:unconfined
-  #    ports:
-  #      - "2342:2342"
-  #    restart: unless-stopped
-  #    environment:
-  #      PHOTOPRISM_ADMIN_USER: "admin"                 # superadmin username
-  #      PHOTOPRISM_ADMIN_PASSWORD: ""          # initial superadmin password (minimum 8 characters)
-  #      PHOTOPRISM_AUTH_MODE: "password"               # authentication mode (public, password)
-  #      PHOTOPRISM_SITE_URL: "http://photoprism.local:2342"   # server URL in the format "http(s)://domain.name(:port)/(path)"
-  #      PHOTOPRISM_ORIGINALS_LIMIT: 5000               # file size limit for originals in MB (increase for high-res video)
-  #      PHOTOPRISM_HTTP_COMPRESSION: "gzip"            # improves transfer speed and bandwidth utilization (none or gzip)
-  #      PHOTOPRISM_LOG_LEVEL: "info"                   # log level: trace, debug, info, warning, error, fatal, or panic
-  #      PHOTOPRISM_READONLY: "false"                   # do not modify originals directory (reduced functionality)
-  #      PHOTOPRISM_EXPERIMENTAL: "false"               # enables experimental features
-  #      PHOTOPRISM_DISABLE_CHOWN: "false"              # disables updating storage permissions via chmod and chown on startup
-  #      PHOTOPRISM_DISABLE_WEBDAV: "false"             # disables built-in WebDAV server
-  #      PHOTOPRISM_DISABLE_SETTINGS: "false"           # disables settings UI and API
-  #      PHOTOPRISM_DISABLE_TENSORFLOW: "true"         # disables all features depending on TensorFlow
-  #      PHOTOPRISM_DISABLE_FACES: "false"              # disables face detection and recognition (requires TensorFlow)
-  #      PHOTOPRISM_DISABLE_CLASSIFICATION: "false"     # disables image classification (requires TensorFlow)
-  #      PHOTOPRISM_DISABLE_RAW: "false"                # disables indexing and conversion of RAW files
-  #      PHOTOPRISM_RAW_PRESETS: "false"                # enables applying user presets when converting RAW files (reduces performance)
-  #      PHOTOPRISM_JPEG_QUALITY: 85                    # a higher value increases the quality and file size of JPEG images and thumbnails (25-100)
-  #      PHOTOPRISM_DETECT_NSFW: "false"                # automatically flags photos as private that MAY be offensive (requires TensorFlow)
-  #      PHOTOPRISM_UPLOAD_NSFW: "true"                 # allows uploads that MAY be offensive (no effect without TensorFlow)
-  #      PHOTOPRISM_DATABASE_DRIVER: "mysql"            # use MariaDB 10.5+ or MySQL 8+ instead of SQLite for improved performance
-  #      PHOTOPRISM_DATABASE_SERVER: "192.168.1.100:3301"     # MariaDB or MySQL database server (hostname:port)
-  #      PHOTOPRISM_DATABASE_NAME: "photoprism"         # MariaDB or MySQL database schema name
-  #      PHOTOPRISM_DATABASE_USER: "photoprism"         # MariaDB or MySQL database user name
-  #      PHOTOPRISM_DATABASE_PASSWORD: "insecure"       # MariaDB or MySQL database user password
-  #      PHOTOPRISM_SITE_CAPTION: "AI-Powered Photos App"
-  #      PHOTOPRISM_SITE_DESCRIPTION: ""                # meta site description
-  #      PHOTOPRISM_SITE_AUTHOR: ""                     # meta site author
-  #      PHOTOPRISM_FFMPEG_ENCODER: "intel"        # FFmpeg encoder ("software", "intel", "nvidia", "apple", "raspberry")
-  #      # PHOTOPRISM_FFMPEG_BITRATE: "32"              # FFmpeg encoding bitrate limit in Mbit/s (default: 50)
-  #    devices:
-  #      - "/dev/dri:/dev/dri"                         # Intel QSV
-  #    working_dir: "/photoprism" # do not change or remove
-  #    volumes:
-  #      # "/host/folder:/photoprism/folder"                # Example
-  #      - "/home/mc/Gallery:/photoprism/originals"               # Original media files (DO NOT REMOVE)
-  #      # - "/example/family:/photoprism/originals/family" # *Additional* media folders can be mounted like this
-  #      # - "~/Import:/photoprism/import"                  # *Optional* base folder from which files can be imported to originals
-  #      - "/home/mc/AppData/photoprism/storage:/photoprism/storage"                  # *Writable* storage folder for cache, database, and sidecar files (DO NOT REMOVE)
-  #
-  #  photoprism_db:
-  #    container_name: photoprism_db 
-  #    image: mariadb:10.10
-  #    security_opt: 
-  #      - seccomp:unconfined
-  #      - apparmor:unconfined
-  #    command: mysqld --innodb-buffer-pool-size=512M --transaction-isolation=READ-COMMITTED --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --max-connections=512 --innodb-rollback-on-timeout=OFF --innodb-lock-wait-timeout=120
-  #    ports:
-  #      - 3301:3306
-  #    volumes:
-  #      - "/home/mc/AppData/photoprism/database:/var/lib/mysql" 
-  #    environment:
-  #      MARIADB_AUTO_UPGRADE: "1"
-  #      MARIADB_INITDB_SKIP_TZINFO: "1"
-  #      MARIADB_DATABASE: "photoprism"
-  #      MARIADB_USER: "photoprism"
-  #      MARIADB_PASSWORD: "insecure"
-  #      MARIADB_ROOT_PASSWORD: "insecure"
   #    restart: unless-stopped
   #    
   #  filebrowser:
