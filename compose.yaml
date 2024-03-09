@@ -3,8 +3,6 @@ version: "3.8"
 networks:
   npm-net:
     driver: bridge
-  nextcloud-aio:
-    external: true
 
 volumes:
   nextcloud_aio_mastercontainer:
@@ -73,7 +71,6 @@ services:
       - ./nginxproxymanager/letsencrypt:/etc/letsencrypt
     networks:
       - npm-net 
-      - nextcloud-aio
 
   syncthing:
     image: lscr.io/linuxserver/syncthing:latest
@@ -198,7 +195,7 @@ services:
       - 8080:8080
     environment:
       APACHE_PORT: 11000
-      APACHE_IP_BINDING: "127.0.0.1"
+      APACHE_IP_BINDING: "192.168.1.200"
       NEXTCLOUD_DATADIR: "/home/ken/ncdata"
       NEXTCLOUD_MOUNT: "/mnt/slow"
       SKIP_DOMAIN_VALIDATION: true
