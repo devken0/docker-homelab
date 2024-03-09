@@ -82,15 +82,14 @@ services:
       - TZ=Asia/Manila
     volumes:
       - ./syncthing:/config
-      - $NEXTCLOUD_DATA_DIR/data1-App-Backups:/
-        #      - /home/ken/ncdata/App-Backups:/data1-App-Backups
-        #      - /home/ken//nextcloud/data/ken/files/App-Exports:/data2-App-Exports
-        #      - /var/snap/nextcloud/common/nextcloud/data/ken/files/Documents:/data3
-        #      - /var/snap/nextcloud/common/nextcloud/data/ken/files/DCIM:/data4
-        #      - /var/snap/nextcloud/common/nextcloud/data/ken/files/Github:/data5
-        #      - /var/snap/nextcloud/common/nextcloud/data/ken/files/Music:/data6
-        #      - /var/snap/nextcloud/common/nextcloud/data/ken/files/Pictures:/data7
-        #      - /var/snap/nextcloud/common/nextcloud/data/ken/files/Sounds:/data8
+      - $NEXTCLOUD_DATADIR/App-Backups:/data1-App-Backups
+      - $NEXTCLOUD_DATADIR/App-Exports:/data2-App-Exports
+      - $NEXTCLOUD_DATADIR/Documents:/data3-Documents
+      - $NEXTCLOUD_DATADIR/DCIM:/data4-DCIM
+      - $NEXTCLOUD_DATADIR/Github:/data5-Github
+      - $NEXTCLOUD_DATADIR/Music:/data6-Music
+      - $NEXTCLOUD_DATADIR/Pictures:/data7-Pictures
+      - $NEXTCLOUD_DATADIR/Sounds:/data8-Sounds
     ports:
       #- 8384:8384
       - 22000:22000/tcp
