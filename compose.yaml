@@ -11,6 +11,17 @@ volumes:
     name: nextcloud_aio_mastercontainer
       
 services:
+  picoshare:
+    image: mtlynch/picoshare
+    environment:
+      - PORT=4001
+      - PS_SHARED_SECRET=$PICOSHARE_PASSWORD # Change to any password
+      - PS_BEHIND_PROXY=true
+        #    ports:
+        #      - 4001:4001
+    command: -db /data/store.db
+    volumes:
+      - ./data:/data
   omada-controller:
     container_name: omada-controller
     image: mbentley/omada-controller:latest
