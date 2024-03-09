@@ -11,6 +11,23 @@ volumes:
     name: nextcloud_aio_mastercontainer
       
 services:
+  duplicati:
+    image: lscr.io/linuxserver/duplicati:latest
+    container_name: duplicati
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Manila
+      - CLI_ARGS= #optional
+    volumes:
+      - ./duplicati/config:/config
+      - /mnt/slow/duplicati-backups:/backups
+      - /:/source
+        #    ports:
+      #      - 8200:8200
+    restart: unless-stopped
+    networks:
+      - npm-net
   picoshare:
     image: mtlynch/picoshare
     environment:
@@ -22,6 +39,8 @@ services:
     command: -db /data/store.db
     volumes:
       - ./data:/data
+    networks:
+      - npm-net
   omada-controller:
     container_name: omada-controller
     image: mbentley/omada-controller:latest
