@@ -13,11 +13,12 @@ cat <<EOF > github_commit_script.sh
 #!/bin/bash
 
 # Define variables
+CURRENT_DATE_TIME=$(date +"%Y-%m-%d %H:%M:%S")
 FILE_TO_MONITOR="$FILE_TO_MONITOR"
 COMMIT_MESSAGE="$COMMIT_MESSAGE"
 BRANCH="$BRANCH"
 REPO_URL="$REPO_URL"
-GIT_USERNAME="$GIT_USERNAME"
+GIT_USERNAME="bot$GIT_USERNAME"
 GIT_EMAIL="$GIT_EMAIL"
 
 # Change to the directory where the file is located
@@ -25,7 +26,7 @@ cd "\$(dirname "\$FILE_TO_MONITOR")" || exit
 
 # Check if the file has changed
 if git diff --quiet "\$FILE_TO_MONITOR"; then
-    echo "No changes detected."
+    #echo "No changes detected. $CURRENT_DATE_TIME"
     exit 0
 else
     echo "Changes detected. Committing and pushing..."
@@ -34,7 +35,7 @@ else
     git add "\$FILE_TO_MONITOR"
     git commit -m "\$COMMIT_MESSAGE"
     git push "\$REPO_URL" "\$BRANCH"
-    echo "Changes committed and pushed successfully."
+    echo "Changes committed and pushed successfully. $CURRENT_DATE_TIME"
 fi
 EOF
 
@@ -44,6 +45,7 @@ chmod +x github_commit_script.sh
 # Add the cron job
 read -p "Enter the frequency for the cron job (e.g., * * * * * for every minute): " CRON_FREQUENCY
 (crontab -l ; echo "$CRON_FREQUENCY $(pwd)/github_commit_script.sh >> $(pwd)/cron_log.log 2>&1") | crontab -
+(crontab -l ; echo "*/30 * * * * rm $(pwd)/cron_log.log") | crontab -
 
 echo "Cron job has been set up."
 
