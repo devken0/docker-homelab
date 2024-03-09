@@ -82,6 +82,7 @@ services:
       - TZ=Asia/Manila
     volumes:
       - ./syncthing:/config
+      - /home/ken/test:/test
         #      - /home/ken/ncdata/App-Backups:/data1-App-Backups
         #      - /home/ken//nextcloud/data/ken/files/App-Exports:/data2-App-Exports
         #      - /var/snap/nextcloud/common/nextcloud/data/ken/files/Documents:/data3
@@ -195,8 +196,6 @@ services:
       NEXTCLOUD_MOUNT: "/mnt/slow"
       SKIP_DOMAIN_VALIDATION: true
       NEXTCLOUD_ENABLE_DRI_DEVICE: true
-      PUID: 1000
-      PGID: 1000
     volumes:
       - nextcloud_aio_mastercontainer:/mnt/docker-aio-config
       - /var/run/docker.sock:/var/run/docker.sock:ro
