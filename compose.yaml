@@ -11,26 +11,26 @@ volumes:
     name: nextcloud_aio_mastercontainer
       
 services:
-  kasm:
-    image: lscr.io/linuxserver/kasm:latest
-    container_name: kasm
-    privileged: true
-    environment:
-      - KASM_PORT=443
-        #      - DOCKER_HUB_USERNAME=USER #optional
-        #      - DOCKER_HUB_PASSWORD=PASS #optional
-      - DOCKER_MTU=1500 #optional
-    volumes:
-      - ./kasm:/opt
-        #      - /path/to/profiles:/profiles #optional
-        #      - /dev/input:/dev/input #optional
-        #      - /run/udev/data:/run/udev/data #optional
-    ports:
-      - 3000:3000
-      - 8443:443
-    restart: unless-stopped
-    networks:
-      - npm-net
+  #  kasm:
+  #    image: lscr.io/linuxserver/kasm:latest
+  #    container_name: kasm
+  #    privileged: true
+  #    environment:
+  #      - KASM_PORT=7443
+  #        #      - DOCKER_HUB_USERNAME=USER #optional
+  #        #      - DOCKER_HUB_PASSWORD=PASS #optional
+  #      - DOCKER_MTU=1500 #optional
+  #    volumes:
+  #      - ./kasm:/opt
+  #        #      - /path/to/profiles:/profiles #optional
+  #        #      - /dev/input:/dev/input #optional
+  #        #      - /run/udev/data:/run/udev/data #optional
+  #    ports:
+  #      - 3000:3000
+  #      - 7443:443
+  #    restart: unless-stopped
+  #    networks:
+  #      - npm-net
   signal-cli-rest-api:
     image: bbernhard/signal-cli-rest-api:latest
     container_name: signal-cli-rest-api
@@ -73,7 +73,7 @@ services:
       PHOTOPRISM_ADMIN_PASSWORD: $PHOTOPRISM_ADMIN_PASSWORD          # initial admin password (8-72 characters)
       PHOTOPRISM_AUTH_MODE: "password"               # authentication mode (public, password)
       PHOTOPRISM_SITE_URL: $PHOTOPRISM_SITE_URL  # server URL in the format "http(s)://domain.name(:port)/(path)"
-      PHOTOPRISM_DISABLE_TLS: "false"                # disables HTTPS/TLS even if the site URL starts with https:// and a certificate is available
+      PHOTOPRISM_DISABLE_TLS: "true"                # disables HTTPS/TLS even if the site URL starts with https:// and a certificate is available
       PHOTOPRISM_DEFAULT_TLS: "true"                 # defaults to a self-signed HTTPS/TLS certificate if no other certificate is available
       PHOTOPRISM_ORIGINALS_LIMIT: 5000               # file size limit for originals in MB (increase for high-res video)
       PHOTOPRISM_HTTP_COMPRESSION: "gzip"            # improves transfer speed and bandwidth utilization (none or gzip)
