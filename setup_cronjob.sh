@@ -18,7 +18,7 @@ FILE_TO_MONITOR="$FILE_TO_MONITOR"
 COMMIT_MESSAGE="$COMMIT_MESSAGE"
 BRANCH="$BRANCH"
 REPO_URL="$REPO_URL"
-GIT_USERNAME="bot$GIT_USERNAME"
+GIT_USERNAME="$GIT_USERNAME"
 GIT_EMAIL="$GIT_EMAIL"
 
 # Change to the directory where the file is located
@@ -33,7 +33,7 @@ else
     git config user.name "\$GIT_USERNAME"
     git config user.email "\$GIT_EMAIL"
     git add "\$FILE_TO_MONITOR"
-    git commit -m "\$COMMIT_MESSAGE"
+    git commit -m "\$COMMIT_MESSAGE (automated)"
     git push "\$REPO_URL" "\$BRANCH"
     echo "Changes committed and pushed successfully. $CURRENT_DATE_TIME"
 fi
@@ -48,4 +48,3 @@ read -p "Enter the frequency for the cron job (e.g., * * * * * for every minute)
 (crontab -l ; echo "*/30 * * * * rm $(pwd)/cron_log.log") | crontab -
 
 echo "Cron job has been set up."
-
