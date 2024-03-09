@@ -195,6 +195,8 @@ services:
       NEXTCLOUD_MOUNT: "/mnt/slow"
       SKIP_DOMAIN_VALIDATION: true
       NEXTCLOUD_ENABLE_DRI_DEVICE: true
+      PUID: 1000
+      PGID: 1000
     volumes:
       - nextcloud_aio_mastercontainer:/mnt/docker-aio-config
       - /var/run/docker.sock:/var/run/docker.sock:ro
