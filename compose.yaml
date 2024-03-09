@@ -11,6 +11,20 @@ volumes:
     name: nextcloud_aio_mastercontainer
       
 services:
+  signal-cli-rest-api:
+    image: bbernhard/signal-cli-rest-api:latest
+    environment:
+      - MODE=native #supported modes: json-rpc, native, normal
+      - AUTO_RECEIVE_SCHEDULE=0 22 * * * #enable this parameter on demand (see description below)
+      - SIGNAL_CLI_UID=1000
+      - SIGNAL_CLI_GID=1000
+      - PORT=8081
+    ports:
+      - "8081:8081" 
+    volumes:
+      - "./signal-cli/config:/home/.local/share/signal-cli" #map "signal-cli-config" folder on host system into docker container. the folder contains the password and cryptographic keys when a new number is registered
+    restart: unless-stopped
+
   photoprism:
     ## Use photoprism/photoprism:preview for testing preview builds:
     image: photoprism/photoprism:latest
