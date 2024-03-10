@@ -158,6 +158,8 @@ services:
       MARIADB_USER: "photoprism"
       MARIADB_PASSWORD: $PHOTOPRISM_DATABASE_PASSWORD 
       MARIADB_ROOT_PASSWORD: $MARIADB_ROOT_PASSWORD 
+    networks:
+      - npm-net
   duplicati:
     image: lscr.io/linuxserver/duplicati:latest
     container_name: duplicati
