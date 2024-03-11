@@ -26,7 +26,7 @@ services:
       ND_BASEURL: "https://navidrome.minihomebox.duckdns.org"
     volumes:
       - "./navidrome:/data"
-      - "$NEXTCLOUD_DATADIR/Music:/music:ro"
+      #- "$NEXTCLOUD_DATADIR/Music:/music:ro"
     networks:
       - npm-net
   #  kasm:
@@ -276,21 +276,20 @@ services:
     image: lscr.io/linuxserver/syncthing:latest
     container_name: syncthing
     hostname: minihomebox #optional
-    user: 33:33
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=Asia/Manila
     volumes:
       - ./syncthing:/config
-      - $NEXTCLOUD_DATADIR/App-Backups:/data1-App-Backups
-      - $NEXTCLOUD_DATADIR/App-Exports:/data2-App-Exports
-      - $NEXTCLOUD_DATADIR/Documents:/data3-Documents
-      - $NEXTCLOUD_DATADIR/DCIM:/data4-DCIM
-      - $NEXTCLOUD_DATADIR/Github:/data5-Github
-      - $NEXTCLOUD_DATADIR/Music:/data6-Music
-      - $NEXTCLOUD_DATADIR/Pictures:/data7-Pictures
-      - $NEXTCLOUD_DATADIR/Sounds:/data8-Sounds
+      #- $NEXTCLOUD_DATADIR/App-Backups:/data1-App-Backups
+      #- $NEXTCLOUD_DATADIR/App-Exports:/data2-App-Exports
+      #- $NEXTCLOUD_DATADIR/Documents:/data3-Documents
+      #- $NEXTCLOUD_DATADIR/DCIM:/data4-DCIM
+      #- $NEXTCLOUD_DATADIR/Github:/data5-Github
+      #- $NEXTCLOUD_DATADIR/Music:/data6-Music
+      #- $NEXTCLOUD_DATADIR/Pictures:/data7-Pictures
+      #- $NEXTCLOUD_DATADIR/Sounds:/data8-Sounds
     ports:
       #- 8384:8384
       - 22000:22000/tcp
