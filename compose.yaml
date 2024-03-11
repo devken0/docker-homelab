@@ -312,28 +312,28 @@ services:
     image: selfhostedpro/yacht    
     networks:
       - npm-net
-  airsonic-advanced:
-    image: lscr.io/linuxserver/airsonic-advanced:latest
-    container_name: airsonic-advanced
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Asia/Manila
-      - CONTEXT_PATH= #optional
-      - JAVA_OPTS= #optional
-    volumes:
-      - ./airsonic-adv/config:/config
-      - $NEXTCLOUD_DATADIR/Music:/music
-      - $NEXTCLOUD_DATADIR/Playlists:/playlists
-      - $NEXTCLOUD_DATADIR/Podcasts:/podcasts
-        #      - /path/to/other media:/media #optional
-        #    ports:
-      #      - 4040:4040
-    devices:
-      - /dev/snd:/dev/snd #optional
-    restart: unless-stopped
-    networks:
-      - npm-net
+  #airsonic-advanced:
+  #  image: lscr.io/linuxserver/airsonic-advanced:latest
+  #  container_name: airsonic-advanced
+  #  environment:
+  #    - PUID=1000
+  #    - PGID=1000
+  #    - TZ=Asia/Manila
+  #    - CONTEXT_PATH= #optional
+  #    - JAVA_OPTS= #optional
+  #  volumes:
+  #    - ./airsonic-adv/config:/config
+  #    - $NEXTCLOUD_DATADIR/Music:/music
+  #    - $NEXTCLOUD_DATADIR/Playlists:/playlists
+  #    - $NEXTCLOUD_DATADIR/Podcasts:/podcasts
+  #      #      - /path/to/other media:/media #optional
+  #      #    ports:
+  #    #      - 4040:4040
+  #  devices:
+  #    - /dev/snd:/dev/snd #optional
+  #  restart: unless-stopped
+  #  networks:
+  #    - npm-net
   watchtower:
     image: containrrr/watchtower
     container_name: watchtower
