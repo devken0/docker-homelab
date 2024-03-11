@@ -276,6 +276,7 @@ services:
     image: lscr.io/linuxserver/syncthing:latest
     container_name: syncthing
     hostname: minihomebox #optional
+    user: 33:33
     environment:
       - PUID=1000
       - PGID=1000
