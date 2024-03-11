@@ -11,6 +11,16 @@ networks:
 #    name: nextcloud_aio_mastercontainer
       
 services:
+  dozzle:
+    container_name: dozzle
+    image: amir20/dozzle
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 9999:8080
+    restart: unless-stopped
+    networks:
+      - npm-net
   navidrome:
     image: deluan/navidrome:latest
     container_name: navidrome
