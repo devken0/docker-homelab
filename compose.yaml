@@ -11,8 +11,8 @@ networks:
 services:
   glances:
     container_name: glances
-    ports:
-      - 61208:61208
+    #ports:
+    #  - 61208-61209:61208-61209
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
@@ -20,18 +20,6 @@ services:
     restart: always
     pid: host
     image: nicolargo/glances
-  hastypaste:
-    container_name: hastypaste
-    image: ghcr.io/enchant97/hasty-paste:1
-    restart: unless-stopped
-    environment:
-      NEW_AT_INDEX: "true"
-      DEFAULT_USE_LONG_ID: "false"
-      ENABLE_PUBLIC_LIST: "true"
-    volumes:
-      - ./hastypaste:/app/data
-    #ports:
-    #  - 8069:8000
     networks:
       - npm-net
   dozzle:
