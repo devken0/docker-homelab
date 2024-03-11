@@ -9,20 +9,6 @@ networks:
 #  nextcloud_aio_mastercontainer:
 #    name: nextcloud_aio_mastercontainer
 services:
-  wallabag:
-    image: wallabag/wallabag
-    container_name: wallabag
-    #ports:
-    #  - "80:80"
-    environment:
-      - PUID:1000
-      - PGID:1000
-      - SYMFONY__ENV__DOMAIN_NAME=https://wallabag.minihomebox.duckdns.org
-    volumes:
-      - ./wallabag/data:/var/www/wallabag/data
-      - ./wallabag/images:/var/www/wallabag/web/assets/images
-    networks:
-      - npm-net
   glances:
     container_name: glances
     #ports:
