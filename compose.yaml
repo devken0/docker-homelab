@@ -3,12 +3,12 @@ version: "3.8"
 networks:
   npm-net:
     driver: bridge
-  nextcloud-aio:
-    external: true
+#  nextcloud-aio:
+#    external: true
 
-volumes:
-  nextcloud_aio_mastercontainer:
-    name: nextcloud_aio_mastercontainer
+#volumes:
+#  nextcloud_aio_mastercontainer:
+#    name: nextcloud_aio_mastercontainer
       
 services:
   navidrome:
@@ -30,26 +30,26 @@ services:
       #- "$NEXTCLOUD_DATADIR/Music:/music:ro"
     networks:
       - npm-net
-  #  kasm:
-  #    image: lscr.io/linuxserver/kasm:latest
-  #    container_name: kasm
-  #    privileged: true
-  #    environment:
-  #      - KASM_PORT=7443
-  #        #      - DOCKER_HUB_USERNAME=USER #optional
-  #        #      - DOCKER_HUB_PASSWORD=PASS #optional
-  #      - DOCKER_MTU=1500 #optional
-  #    volumes:
-  #      - ./kasm:/opt
-  #        #      - /path/to/profiles:/profiles #optional
-  #        #      - /dev/input:/dev/input #optional
-  #        #      - /run/udev/data:/run/udev/data #optional
-  #    ports:
-  #      - 3000:3000
-  #      - 7443:443
-  #    restart: unless-stopped
-  #    networks:
-  #      - npm-net
+#  kasm:
+#    image: lscr.io/linuxserver/kasm:latest
+#    container_name: kasm
+#    privileged: true
+#    environment:
+#      - KASM_PORT=7443
+#        #      - DOCKER_HUB_USERNAME=USER #optional
+#        #      - DOCKER_HUB_PASSWORD=PASS #optional
+#      - DOCKER_MTU=1500 #optional
+#    volumes:
+#      - ./kasm:/opt
+#        #      - /path/to/profiles:/profiles #optional
+#        #      - /dev/input:/dev/input #optional
+#        #      - /run/udev/data:/run/udev/data #optional
+#    ports:
+#      - 3000:3000
+#      - 7443:443
+#    restart: unless-stopped
+#    networks:
+#      - npm-net
   signal-cli-rest-api:
     image: bbernhard/signal-cli-rest-api:latest
     container_name: signal-cli-rest-api
@@ -147,7 +147,7 @@ services:
     ## Storage Folders: "~" is a shortcut for your home directory, "." for the current directory
     volumes:
       # "/host/folder:/photoprism/folder"                # Example
-      - "$NEXTCLOUD_DATADIR/Pictures:/photoprism/originals"               # Original media files (DO NOT REMOVE)
+      - "./syncthing/Pictures:/photoprism/originals"               # Original media files (DO NOT REMOVE)
       # - "/mnt/cache:/photoprism/storage/cache"
       # - "/example/family:/photoprism/originals/family" # *Additional* media folders can be mounted like this
       # - "~/Import:/photoprism/import"                  # *Optional* base folder from which files can be imported to originals
@@ -208,7 +208,7 @@ services:
         #      - 4001:4001
     command: -db /data/store.db
     volumes:
-      - ./data:/data
+      - ./picoshare/data:/data
     networks:
       - npm-net
     restart: unless-stopped
@@ -272,7 +272,7 @@ services:
       - ./nginxproxymanager/letsencrypt:/etc/letsencrypt
     networks:
       - npm-net 
-      - nextcloud-aio
+#      - nextcloud-aio
   syncthing:
     image: lscr.io/linuxserver/syncthing:latest
     container_name: syncthing
@@ -283,13 +283,13 @@ services:
       - TZ=Asia/Manila
     volumes:
       - ./syncthing:/config
-      - ./App-Backups:/data/App-Backups
-      - ./App-Exports:/data/App-Exports
-      - ./Documents:/data/Documents
-      - ./DCIM:/data/DCIM
-      - ./Music:/data/Music
-      - ./Pictures:/data/Pictures
-      - ./Sounds:/data/Sounds
+      - ./syncthing/App-Backups:/data/App-Backups
+      - ./syncthing/App-Exports:/data/App-Exports
+      - ./syncthing/Documents:/data/Documents
+      - ./syncthing/DCIM:/data/DCIM
+      - ./syncthing/Music:/data/Music
+      - ./syncthing/Pictures:/data/Pictures
+      - ./syncthing/Sounds:/data/Sounds
     ports:
       #- 8384:8384
       - 22000:22000/tcp
@@ -405,26 +405,26 @@ services:
     restart: always
     networks:
       - npm-net
-  nextcloud-aio-mastercontainer:
-    image: nextcloud/all-in-one:latest
-    container_name: nextcloud-aio-mastercontainer
-    init: true
-    restart: always
-    ports:
-      - 8080:8080
-    environment:
-      APACHE_PORT: 11000
-      APACHE_IP_BINDING: "0.0.0.0"
-      NEXTCLOUD_DATADIR: "/home/ken/ncdata"
-      NEXTCLOUD_MOUNT: "/mnt/slow"
-      SKIP_DOMAIN_VALIDATION: true
-      NEXTCLOUD_ENABLE_DRI_DEVICE: true
-    volumes:
-      - nextcloud_aio_mastercontainer:/mnt/docker-aio-config
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    networks:
-      - npm-net
-      - nextcloud-aio
+#  nextcloud-aio-mastercontainer:
+#    image: nextcloud/all-in-one:latest
+#    container_name: nextcloud-aio-mastercontainer
+#    init: true
+#    restart: always
+#    ports:
+#      - 8080:8080
+#    environment:
+#      APACHE_PORT: 11000
+#      APACHE_IP_BINDING: "0.0.0.0"
+#      NEXTCLOUD_DATADIR: "/home/ken/ncdata"
+#      NEXTCLOUD_MOUNT: "/mnt/slow"
+#      SKIP_DOMAIN_VALIDATION: true
+#      NEXTCLOUD_ENABLE_DRI_DEVICE: true
+#    volumes:
+#      - nextcloud_aio_mastercontainer:/mnt/docker-aio-config
+#      - /var/run/docker.sock:/var/run/docker.sock:ro
+#    networks:
+#      - npm-net
+#      - nextcloud-aio
 
   ntfy:
     image: binwiederhier/ntfy
