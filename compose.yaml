@@ -58,7 +58,7 @@ services:
     restart: unless-stopped
     stop_grace_period: 10s
     depends_on:
-      - mariadb
+      - photoprism-mariadb
     security_opt:
       - seccomp:unconfined
       - apparmor:unconfined
