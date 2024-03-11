@@ -9,6 +9,17 @@ networks:
 #  nextcloud_aio_mastercontainer:
 #    name: nextcloud_aio_mastercontainer
 services:
+  glances:
+    container_name: glances
+    ports:
+      - 61208:61208
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - GLANCES_OPT=-w
+    restart: always
+    pid: host
+    image: nicolargo/glances
   hastypaste:
     container_name: hastypaste
     image: ghcr.io/enchant97/hasty-paste:1
