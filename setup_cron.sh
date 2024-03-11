@@ -46,5 +46,6 @@ chmod +x github_commit_script.sh
 read -p "Enter the frequency for the cron job (e.g., * * * * * for every minute): " CRON_FREQUENCY
 (crontab -l ; echo "$CRON_FREQUENCY $(pwd)/github_commit_script.sh >> $(pwd)/cron_log.log 2>&1") | crontab -
 (crontab -l ; echo "*/30 * * * * rm $(pwd)/cron_log.log") | crontab -
+(crontab -l ; echo "*/5 * * * * docker exec --user www-data -it nextcloud-aio-nextcloud php occ files:scan --all") | crontab - 
 
 echo "Cron job has been set up."

@@ -67,6 +67,8 @@ services:
       - /home/ken/paperless-ngx/consume:/usr/src/paperless/consume
     env_file: docker-compose.env
     environment:
+      USERMAP_UID: 33
+      USERMAP_GID: 33
       PAPERLESS_REDIS: redis://broker:6379
       PAPERLESS_DBENGINE: mariadb
       PAPERLESS_DBHOST: db
