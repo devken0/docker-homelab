@@ -5,12 +5,24 @@ networks:
     driver: bridge
 #  nextcloud-aio:
 #    external: true
-
 #volumes:
 #  nextcloud_aio_mastercontainer:
 #    name: nextcloud_aio_mastercontainer
-      
 services:
+  hastypaste:
+    container_name: hastypaste
+    image: ghcr.io/enchant97/hasty-paste:1
+    restart: unless-stopped
+    environment:
+      NEW_AT_INDEX: "true"
+      DEFAULT_USE_LONG_ID: "false"
+      ENABLE_PUBLIC_LIST: "true"
+    volumes:
+      - ./hastypaste:/app/data
+    #ports:
+    #  - 8069:8000
+    networks:
+      - npm-net
   dozzle:
     container_name: dozzle
     image: amir20/dozzle
