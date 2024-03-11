@@ -434,7 +434,7 @@ services:
       # Other
       - LOG_LEVEL=info
       - LOG_CALLER=hidden
-      - SHOUTRRR_ADDRESSES=
+      - SHOUTRRR_ADDRESSES=ntfy://ntfy.minihomebox.duckdns.org/ddns_updates
       - PUID=1000
       - PGID=1000
     restart: always
