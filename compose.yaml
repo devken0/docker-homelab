@@ -9,6 +9,16 @@ networks:
 #  nextcloud_aio_mastercontainer:
 #    name: nextcloud_aio_mastercontainer
 services:
+  linkding:
+    container_name: linkding
+    image: sissbrueker/linkding:latest
+    #ports:
+    #  - 9090:9090  
+    volumes:
+      - "./linkding:/etc/linkding/data"
+    restart: unless-stopped
+    networks:
+      - npm-net
   glances:
     container_name: glances
     #ports:
