@@ -11,7 +11,7 @@ networks:
 services:
   linkding:
     container_name: linkding
-    image: sissbrueker/linkding:latest
+    image: sissbruecker/linkding:latest
     #ports:
     #  - 9090:9090  
     volumes:
