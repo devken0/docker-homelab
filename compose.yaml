@@ -103,12 +103,8 @@ services:
       - npm-net
 
   photoprism:
-    ## Use photoprism/photoprism:preview for testing preview builds:
     image: photoprism/photoprism:latest
     container_name: photoprism
-    ## Don't enable automatic restarts until PhotoPrism has been properly configured and tested!
-    ## If the service gets stuck in a restart loop, this points to a memory, filesystem, network, or database issue:
-    ## https://docs.photoprism.app/getting-started/troubleshooting/#fatal-server-errors
     restart: unless-stopped
     stop_grace_period: 10s
     depends_on:
@@ -116,12 +112,8 @@ services:
     security_opt:
       - seccomp:unconfined
       - apparmor:unconfined
-    ## Server port mapping in the format "Host:Container". To use a different port, change the host port on
-    ## the left-hand side and keep the container port, e.g. "80:2342" (for HTTP) or "443:2342 (for HTTPS):
     #ports:
     #  - "2342:2342"
-    ## Before you start the service, please check the following config options (and change them as needed):
-    ## https://docs.photoprism.app/getting-started/config-options/
     environment:
       # PHOTOPRISM_TRUSTED_PROXY: 192.168.1.200/24
       PHOTOPRISM_ADMIN_USER: "admin"                 # admin login username
@@ -171,15 +163,7 @@ services:
     ## Share hardware devices with FFmpeg and TensorFlow (optional):
     devices:
       - "/dev/dri:/dev/dri"                         # Intel QSV
-    #  - "/dev/nvidia0:/dev/nvidia0"                 # Nvidia CUDA
-    #  - "/dev/nvidiactl:/dev/nvidiactl"
-    #  - "/dev/nvidia-modeset:/dev/nvidia-modeset"
-    #  - "/dev/nvidia-nvswitchctl:/dev/nvidia-nvswitchctl"
-    #  - "/dev/nvidia-uvm:/dev/nvidia-uvm"
-    #  - "/dev/nvidia-uvm-tools:/dev/nvidia-uvm-tools"
-    #  - "/dev/video11:/dev/video11"                 # Video4Linux Video Encode Device (h264_v4l2m2m)
     working_dir: "/photoprism" # do not change or remove
-    ## Storage Folders: "~" is a shortcut for your home directory, "." for the current directory
     volumes:
       # "/host/folder:/photoprism/folder"                # Example
       - "./syncthing/Pictures:/photoprism/originals"               # Original media files (DO NOT REMOVE)
@@ -190,8 +174,6 @@ services:
     networks:
       - npm-net
 
-  ## Database Server (recommended)
-  ## see https://docs.photoprism.app/getting-started/faq/#should-i-use-sqlite-mariadb-or-mysql
   photoprism-mariadb:
     image: mariadb:11
     container_name: photoprism-mariadb
@@ -203,7 +185,6 @@ services:
       - seccomp:unconfined
       - apparmor:unconfined
     command: --innodb-buffer-pool-size=512M --transaction-isolation=READ-COMMITTED --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --max-connections=512 --innodb-rollback-on-timeout=OFF --innodb-lock-wait-timeout=120
-    ## Never store database files on an unreliable device such as a USB flash drive, an SD card, or a shared network folder:
     volumes:
       - "./photoprism/mariadb:/var/lib/mysql" # DO NOT REMOVE
     environment:
