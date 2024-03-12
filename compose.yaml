@@ -12,8 +12,8 @@ services:
   linkding:
     container_name: linkding
     image: sissbruecker/linkding:latest
-    #ports:
-    #  - 9090:9090  
+#    ports:
+#      - 9090:9090  
     environment:
       LD_SUPERUSER_NAME: $LD_SUPERUSER_NAME
       LD_SUPERUSER_PASSWORD: $LD_SUPERUSER_PASSWORD
@@ -25,8 +25,8 @@ services:
       - npm-net
   glances:
     container_name: glances
-    #ports:
-    #  - 61208-61209:61208-61209
+#    ports:
+#      - 61208-61209:61208-61209
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
@@ -41,8 +41,8 @@ services:
     image: amir20/dozzle
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    #ports:
-    #  - 9999:8080
+#    ports:
+#      - 9999:8080
     restart: unless-stopped
     networks:
       - npm-net
@@ -50,11 +50,10 @@ services:
     image: deluan/navidrome:latest
     container_name: navidrome
     user: 1000:1000 # should be owner of volumes
-    #ports:
-    #  - "4533:4533"
+#    ports:
+#     - "4533:4533"
     restart: unless-stopped
     environment:
-      # Optional: put your config options customization here. Examples:
       ND_SCANSCHEDULE: 1h
       ND_LOGLEVEL: info  
       ND_SESSIONTIMEOUT: 24h
@@ -62,7 +61,7 @@ services:
     volumes:
       - "./navidrome:/data"
       - "./syncthing/Music:/music:ro"
-      #- "$NEXTCLOUD_DATADIR/Music:/music:ro"
+#      - "$NEXTCLOUD_DATADIR/Music:/music:ro"
     networks:
       - npm-net
 #  kasm:
@@ -90,12 +89,12 @@ services:
     container_name: signal-cli-rest-api
     environment:
       - MODE=json-rpc #supported modes: json-rpc, native, normal
-        #      - AUTO_RECEIVE_SCHEDULE=0 22 * * * #enable this parameter on demand (see description below)
+#      - AUTO_RECEIVE_SCHEDULE=0 22 * * * #enable this parameter on demand (see description below)
       - SIGNAL_CLI_UID=1000
       - SIGNAL_CLI_GID=1000
-        #      - PORT=8081
-        #    ports:
-        #      - "8081:8081" 
+#      - PORT=8081
+#    ports:
+#      - "8081:8081" 
     volumes:
       - "./signal-cli/config:/home/.local/share/signal-cli" #map "signal-cli-config" folder on host system into docker container. the folder contains the password and cryptographic keys when a new number is registered
     restart: unless-stopped
@@ -112,10 +111,10 @@ services:
     security_opt:
       - seccomp:unconfined
       - apparmor:unconfined
-    #ports:
-    #  - "2342:2342"
+#    ports:
+#      - "2342:2342"
     environment:
-      # PHOTOPRISM_TRUSTED_PROXY: 192.168.1.200/24
+#      PHOTOPRISM_TRUSTED_PROXY: 192.168.1.200/24
       PHOTOPRISM_ADMIN_USER: "admin"                 # admin login username
       PHOTOPRISM_ADMIN_PASSWORD: $PHOTOPRISM_ADMIN_PASSWORD          # initial admin password (8-72 characters)
       PHOTOPRISM_AUTH_MODE: "password"               # authentication mode (public, password)
@@ -153,23 +152,22 @@ services:
       PHOTOPRISM_FFMPEG_SIZE: "1920"               # video size limit in pixels (720-7680) (default: 3840)
       PHOTOPRISM_FFMPEG_BITRATE: "32"              # video bitrate limit in Mbit/s (default: 50)
       ## Run/install on first startup (options: update https gpu tensorflow davfs clitools clean):
-      #PHOTOPRISM_INIT: "intel tensorflow"
+#      PHOTOPRISM_INIT: "intel tensorflow"
       ## Run as a non-root user after initialization (supported: 0, 33, 50-99, 500-600, and 900-1200):
       PHOTOPRISM_UID: 1000
       PHOTOPRISM_GID: 1000
-      # PHOTOPRISM_UMASK: 0000
+#      PHOTOPRISM_UMASK: 0000
     ## Start as non-root user before initialization (supported: 0, 33, 50-99, 500-600, and 900-1200):
-    # user: "1000:1000"
+#    user: "1000:1000"
     ## Share hardware devices with FFmpeg and TensorFlow (optional):
     devices:
       - "/dev/dri:/dev/dri"                         # Intel QSV
     working_dir: "/photoprism" # do not change or remove
     volumes:
-      # "/host/folder:/photoprism/folder"                # Example
       - "./syncthing/Pictures:/photoprism/originals"               # Original media files (DO NOT REMOVE)
-      # - "/mnt/cache:/photoprism/storage/cache"
-      # - "/example/family:/photoprism/originals/family" # *Additional* media folders can be mounted like this
-      # - "~/Import:/photoprism/import"                  # *Optional* base folder from which files can be imported to originals
+#      - "/mnt/cache:/photoprism/storage/cache"
+#      - "/example/family:/photoprism/originals/family" # *Additional* media folders can be mounted like this
+#      - "~/Import:/photoprism/import"                  # *Optional* base folder from which files can be imported to originals
       - "./photoprism/storage:/photoprism/storage"                  # *Writable* storage folder for cache, database, and sidecar files (DO NOT REMOVE)
     networks:
       - npm-net
@@ -208,8 +206,8 @@ services:
       - ./duplicati/config:/config
       - /mnt/slow/duplicati-backups:/backups
       - /:/source
-        #    ports:
-      #      - 8200:8200
+#    ports:
+#      - 8200:8200
     restart: unless-stopped
     networks:
       - npm-net
@@ -220,8 +218,8 @@ services:
       - PORT=4001
       - PS_SHARED_SECRET=$PICOSHARE_PASSWORD # Change to any password
       - PS_BEHIND_PROXY=true
-        #    ports:
-        #      - 4001:4001
+#    ports:
+#      - 4001:4001
     command: -db /data/store.db
     volumes:
       - ./picoshare/data:/data
@@ -245,7 +243,7 @@ services:
       - 27001:27001/udp
       - 29810:29810/udp
       - 29811-29816:29811-29816
-        #network_mode: host
+#    network_mode: host
     environment:
       - PUID=1000
       - PGID=1000
@@ -278,11 +276,11 @@ services:
     ports:
       - 80:80 # Public HTTP Port
       - 443:443 # Public HTTPS Port
-      - 81:81 # Comment out after creating a proxy host for the service
+#      - 81:81 # Comment out after creating a proxy host for the service
     environment:
       DISABLE_IPV6: "true"
-      #PUID: 1000 
-      #PGID: 1000
+      PUID: 1000 
+      PGID: 1000
     volumes:
       - ./nginxproxymanager/data:/data
       - ./nginxproxymanager/letsencrypt:/etc/letsencrypt
