@@ -204,7 +204,7 @@ services:
       - CLI_ARGS= #optional
     volumes:
       - ./duplicati/config:/config
-      - /mnt/slow/duplicati-backups:/backups
+      - /mnt/slow_2tb/duplicati-backups:/backups
       - /:/source
 #    ports:
 #      - 8200:8200
