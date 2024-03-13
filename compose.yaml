@@ -405,6 +405,7 @@ services:
       DNSMASQ_LISTENING: all
       PUID: 1000
       PGID: 1000
+      DNSMASQ_USER: root
     # Volumes store your data between container upgrades
     volumes:
       - './pihole/etc-pihole:/etc/pihole'
