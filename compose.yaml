@@ -444,13 +444,13 @@ services:
       - ROOT_URL=/
 
       # Backup
-      - BACKUP_PERIOD=24h # 0 to disable
-      - BACKUP_DIRECTORY=/updater/data
+#      - BACKUP_PERIOD=24h # 0 to disable
+#      - BACKUP_DIRECTORY=/updater/data
 
       # Other
       - LOG_LEVEL=info
       - LOG_CALLER=hidden
-      - SHOUTRRR_ADDRESSES=ntfy://ntfy.minihomebox.duckdns.org/ddns_updates
+#      - SHOUTRRR_ADDRESSES=ntfy://ntfy.minihomebox.duckdns.org/ddns_updates
       - PUID=1000
       - PGID=1000
     restart: always
