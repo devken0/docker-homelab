@@ -13,6 +13,24 @@ networks:
 #  nextcloud_aio_mastercontainer:
 #    name: nextcloud_aio_mastercontainer
 services:
+  jellyfin:
+    image: lscr.io/linuxserver/jellyfin:latest
+    container_name: jellyfin
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Manila
+      - JELLYFIN_PublishedServerUrl=https://jellyfin.minihomebox.duckdns.org #optional
+    volumes:
+      - ./jellyfin:/config
+      - ./mnt/slow_2tb/shares/media/shows:/data/tvshows
+      - /mnt/slow_2tb/shares/media/movies:/data/movies
+    ports:
+#      - 8096:8096
+      - 8920:8920 #optional
+      - 7359:7359/udp #optional
+      - 1900:1900/udp #optional
+    restart: unless-stopped
 #  wg-easy:
 #    environment:
 #      # ⚠️ Change the server's hostname (clients will connect to):
@@ -732,26 +750,6 @@ services:
   #      - /home/mc/Media/torrents:/downloads #optional
   #    ports:
   #      - 8989:8989
-  #    restart: unless-stopped
-  #
-  #  jellyfin:
-  #    image: lscr.io/linuxserver/jellyfin:latest 
-  #    container_name: jellyfin
-  #    environment:
-  #      - PUID=1000
-  #      - PGID=100
-  #      - TZ=Asia/Manila  
-  #    volumes:
-  #      - /home/mc/AppData/jellyfin:/config
-  #      - /home/mc/Media/shows:/data/tvshows
-  #      - /home/mc/Media/movies:/data/movies
-  #    ports:
-  #      - 8096:8096
-  #      - 8920:8920 #optional
-  #      - 7359:7359/udp #optional
-  #      - 1900:1900/udp #optional
-  #    devices:
-  #      - /dev/dri:/dev/dri
   #    restart: unless-stopped
   #
   #  qbittorrent:
