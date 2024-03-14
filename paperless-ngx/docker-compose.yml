@@ -36,13 +36,13 @@ services:
     image: docker.io/library/redis:7
     restart: unless-stopped
     volumes:
-      - redisdata:/data
+      - ./redis:/data
 
   db:
     image: docker.io/library/mariadb:10
     restart: unless-stopped
     volumes:
-      - dbdata:/var/lib/mysql
+      - ./db:/var/lib/mysql
     environment:
       MARIADB_HOST: paperless
       MARIADB_DATABASE: paperless
@@ -61,12 +61,17 @@ services:
         #    ports:
         #      - "8000:8000"
     volumes:
-      - data:/usr/src/paperless/data
+      - ./data:/usr/src/paperless/data
       - ./media:/usr/src/paperless/media
       - ./export:/usr/src/paperless/export
       - ./consume:/usr/src/paperless/consume
     env_file: docker-compose.env
     environment:
+      # configuration at the env_file
+      #PAPERLESS_URL:
+      #PAPERLESS_TIME_ZONE:
+      #PAPERLESS_OCR_LANGUAGE:
+      #PAPERLESS_SECRET_KEY:
       USERMAP_UID: 1000 
       USERMAP_GID: 1000
       PAPERLESS_REDIS: redis://broker:6379
@@ -96,10 +101,10 @@ services:
     image: ghcr.io/paperless-ngx/tika:latest
     restart: unless-stopped
 
-volumes:
-  data:
-  dbdata:
-  redisdata:
+#volumes:
+#  data:
+#  dbdata:
+#  redisdata:
 
 networks:
   docker-homelab_npm-net:
