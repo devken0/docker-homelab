@@ -44,6 +44,7 @@ EOF
 cat <<EOF > scripts/db_backup_script.sh
 #!/usr/bin/env bash
 docker exec photoprism photoprism backup -i -f
+docker exec paperless-webserver-1 document_exporter ../export
 EOF
 
 # Make the script executable
