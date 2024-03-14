@@ -117,7 +117,7 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Asia/Manila
-      - JELLYFIN_PublishedServerUrl=https://jellyfin.minihomebox.duckdns.org #optional
+      - JELLYFIN_PublishedServerUrl=$JELLYFIN_URL #optional
     volumes:
       - ./jellyfin:/config
       - /mnt/slow_2tb/shares/media/series:/data/tvshows
