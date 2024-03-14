@@ -99,6 +99,8 @@ services:
       - ./deluge:/config
       - /mnt/slow_2tb/shares/downloads:/downloads
       - /mnt/slow_2tb/shares/downloads/movies:/downloads/movies
+      - /mnt/slow_2tb/shares/downloads/books:/downloads/books
+      - /mnt/slow_2tb/shares/downloads/music:/downloads/music
       - /mnt/slow_2tb/shares/downloads/series:/downloads/series
     ports:
 #      - 8112:8112
