@@ -51,7 +51,7 @@ services:
 #      - "8080:80"
     volumes:
       - "/mnt/slow_2tb/shares/downloads/books:/books"
-    command: "--persist"
+    command: "--persist --name extremedudu23"
     restart: unless-stopped
     networks:
       - npm-net
