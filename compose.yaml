@@ -13,6 +13,79 @@ networks:
 #  nextcloud_aio_mastercontainer:
 #    name: nextcloud_aio_mastercontainer
 services:
+
+  changedetection.io:
+    image: lscr.io/linuxserver/changedetection.io:latest
+    container_name: changedetection
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=$TIMEZONE
+      - BASE_URL= #optional
+      - PLAYWRIGHT_DRIVER_URL= #optional
+    volumes:
+      - ./changedetection:/config
+#    ports:
+#      - 5000:5000
+    restart: unless-stopped
+    networks:
+      - npm-net
+#  ddclient:
+#    image: lscr.io/linuxserver/ddclient:latest
+#    container_name: ddclient
+#    environment:
+#      - PUID=1000
+#      - PGID=1000
+#      - TZ=Etc/UTC
+#    volumes:
+#      - /path/to/ddclient/config:/config
+#    restart: unless-stopped
+  lazylibrarian:
+    image: lscr.io/linuxserver/lazylibrarian:latest
+    container_name: lazylibrarian
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=$TIMEZONE
+      - DOCKER_MODS=linuxserver/mods:universal-calibre|linuxserver/mods:lazylibrarian-ffmpeg #optional
+    volumes:
+      - ./lazylibrarian:/config
+      - $DOWNLOADS_PATH:/downloads
+      - $BOOKS_PATH:/books #optional
+#    ports:
+#      - 5299:5299
+    restart: unless-stopped
+    networks:
+      - npm-net
+  nzbhydra2:
+    image: lscr.io/linuxserver/nzbhydra2:latest
+    container_name: nzbhydra2
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=$TIMEZONE
+    volumes:
+      - ./nzbhydra2:/config
+      - $USENET_DOWNLOADS_PATH:/downloads
+#    ports:
+#      - 5076:5076
+    restart: unless-stopped
+    networks:
+      - npm-net
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=$TIMEZONE
+    volumes:
+      - ./prowlarr:/config
+#    ports:
+#      - 9696:9696
+    restart: unless-stopped
+    networks:
+      - npm-net
   sabnzbd:
     image: lscr.io/linuxserver/sabnzbd:latest
     container_name: sabnzbd
@@ -22,8 +95,8 @@ services:
       - TZ=$TIMEZONE
     volumes:
       - ./sabnzbd:/config
-      - /mnt/slow_2tb/shares/downloads/nzb:/downloads #optional
-      - /mnt/slow_2tb/shares/downloads/nzb-incomplete:/incomplete-downloads #optional
+      - $USENET_DOWNLOADS_PATH:/downloads #optional
+      - $USENET_INCOMPLETE_DOWNLOADS_PATH:/incomplete-downloads #optional
 #    ports:
 #      - 8080:8080
     restart: unless-stopped
@@ -38,8 +111,8 @@ services:
       - TZ=$TIMEZONE
     volumes:
       - ./bazarr:/config
-      - /mnt/slow_2tb/shares/media/movies:/movies #optional
-      - /mnt/slow_2tb/shares/media/series:/tv #optional
+      - $MOVIES_PATH:/movies #optional
+      - $SERIES_PATH:/tv #optional
 #    ports:
 #      - 6767:6767
     restart: unless-stopped
@@ -56,7 +129,7 @@ services:
       - RUN_OPTS= #optional
     volumes:
       - ./jackett:/config
-      - /mnt/slow_2tb/shares/downloads:/downloads
+      - $DOWNLOADS_PATH:/downloads
 #    ports:
 #      - 9117:9117
     restart: unless-stopped
@@ -71,18 +144,20 @@ services:
       - TZ=$TIMEZONE
     volumes:
       - ./sonarr:/config
-      - /mnt/slow_2tb/shares/media/series:/tv #optional
-      - /mnt/slow_2tb/shares/downloads/series:/downloads #optional
+      - $SERIES_PATH:/tv #optional
+      - $DOWNLOADS_PATH:/downloads #optional
     ports:
       - 8989:8989
     restart: unless-stopped
+    networks:
+      - npm-net
   openbooks:
     image: evanbuss/openbooks
     container_name: openbooks
 #    ports:
 #      - "8080:80"
     volumes:
-      - "/mnt/slow_2tb/shares/downloads/books:/books"
+      - "$OPENBOOKS_DOWNLOADS_PATH:/books"
     command: "--persist --name extremedudu23"
     restart: unless-stopped
     networks:
@@ -96,8 +171,8 @@ services:
       - TZ=$TIMEZONE
     volumes:
       - ./radarr:/config
-      - /mnt/slow_2tb/shares/media/movies:/movies #optional
-      - /mnt/slow_2tb/shares/downloads/movies:/downloads #optional
+      - $MOVIES_PATH:/movies #optional
+      - $DOWNLOADS_PATH:/downloads #optional
 #    ports:
 #      - 7878:7878
     restart: unless-stopped
@@ -112,8 +187,8 @@ services:
       - TZ=$TIMEZONE
     volumes:
       - ./readarr:/config
-      - /mnt/slow_2tb/shares/media/books:/books #optional
-      - /mnt/slow_2tb/shares/downloads/books:/downloads #optional
+      - $BOOKS_PATH:/books #optional
+      - $DOWNLOADS_PATH:/downloads #optional
 #    ports:
 #      - 8787:8787
     restart: unless-stopped
@@ -129,11 +204,7 @@ services:
       - DELUGE_LOGLEVEL=error #optional
     volumes:
       - ./deluge:/config
-      - /mnt/slow_2tb/shares/downloads:/downloads
-      - /mnt/slow_2tb/shares/downloads/movies:/downloads/movies
-      - /mnt/slow_2tb/shares/downloads/books:/downloads/books
-      - /mnt/slow_2tb/shares/downloads/music:/downloads/music
-      - /mnt/slow_2tb/shares/downloads/series:/downloads/series
+      - $TORRENT_DOWNLOADS_PATH:/downloads
     ports:
 #      - 8112:8112
       - 6881:6881
@@ -152,8 +223,8 @@ services:
       - JELLYFIN_PublishedServerUrl=$JELLYFIN_URL #optional
     volumes:
       - ./jellyfin:/config
-      - /mnt/slow_2tb/shares/media/series:/data/tvshows
-      - /mnt/slow_2tb/shares/media/movies:/data/movies
+      - $SERIES_PATH:/data/tvshows
+      - $MOVIES_PATH:/data/movies
     ports:
 #      - 8096:8096
       - 8920:8920 #optional
