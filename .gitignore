@@ -3,4 +3,6 @@
 *-
 */**
 github_commit_script.sh
+paperless-ngx/.env
+db_backup_script.sh
 
