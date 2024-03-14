@@ -40,7 +40,7 @@ services:
     volumes:
       - ./sonarr:/config
       - /mnt/slow_2tb/shares/media/series:/tv #optional
-      - /mnt/slow_2tb/shares/downloads/movies:/downloads #optional
+      - /mnt/slow_2tb/shares/downloads/series:/downloads #optional
     ports:
       - 8989:8989
     restart: unless-stopped
