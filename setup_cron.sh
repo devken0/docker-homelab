@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Prompt user for input
 read -p "Enter the path to the file you want to monitor: " FILE_TO_MONITOR
@@ -9,7 +9,9 @@ read -p "Enter your GitHub username: " GIT_USERNAME
 read -p "Enter your GitHub email address: " GIT_EMAIL
 
 # Create the script with provided inputs
-cat <<EOF > github_commit_script.sh
+mkdir scripts
+
+cat <<EOF > scripts/github_commit_script.sh
 #!/usr/bin/env bash
 
 # Define variables
@@ -39,7 +41,7 @@ else
 fi
 EOF
 
-cat <<EOF > db_backup_script.sh
+cat <<EOF > scripts/db_backup_script.sh
 #!/usr/bin/env bash
 docker exec photoprism photoprism backup -i -f
 EOF
