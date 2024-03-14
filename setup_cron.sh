@@ -10,7 +10,7 @@ read -p "Enter your GitHub email address: " GIT_EMAIL
 
 # Create the script with provided inputs
 cat <<EOF > github_commit_script.sh
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Define variables
 CURRENT_DATE_TIME=$(date +"%Y-%m-%d %H:%M:%S")
@@ -39,13 +39,21 @@ else
 fi
 EOF
 
+cat <<EOF > db_backup_script.sh
+#!/usr/bin/env bash
+docker exec photoprism photoprism backup -i -f
+EOF
+
 # Make the script executable
 chmod +x github_commit_script.sh
+chmod +x db_backup_script.sh.sh
 
 # Add the cron job
-read -p "Enter the frequency for the cron job (e.g., * * * * * for every minute): " CRON_FREQUENCY
-(crontab -l ; echo "$CRON_FREQUENCY $(pwd)/github_commit_script.sh >> $(pwd)/cron_log.log 2>&1") | crontab -
-(crontab -l ; echo "*/30 * * * * rm $(pwd)/cron_log.log") | crontab -
+read -p "Enter the frequency for the cron job github_commit_script.sh (e.g., * * * * * for every minute): " COMMIT_CRON_FREQUENCY
+(crontab -l ; echo "$COMMIT_CRON_FREQUENCY $(pwd)/github_commit_script.sh") | crontab -
+#(crontab -l ; echo "*/30 * * * * rm $(pwd)/cron_log.log") | crontab -
+read -p "Enter the frequency for the cron job db_backup_script.sh (e.g., * * * * * for every minute): " BACKUP_CRON_FREQUENCY
+(crontab -l ; echo "$BACKUP_CRON_FREQUENCY $(pwd)/db_backup_script.sh >> $(pwd)/cron.log 2>&1") | crontab -
 #(crontab -l ; echo "*/5 * * * * docker exec --user www-data -it nextcloud-aio-nextcloud php occ files:scan --all") | crontab - 
 
 echo "Cron job has been set up."
