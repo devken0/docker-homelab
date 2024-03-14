@@ -13,6 +13,101 @@ networks:
 #  nextcloud_aio_mastercontainer:
 #    name: nextcloud_aio_mastercontainer
 services:
+  jackett:
+    image: lscr.io/linuxserver/jackett:latest
+    container_name: jackett
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Manila
+      - AUTO_UPDATE=true #optional
+      - RUN_OPTS= #optional
+    volumes:
+      - ./jackett:/config
+      - /mnt/slow_2tb/shares/downloads:/downloads
+#    ports:
+#      - 9117:9117
+    restart: unless-stopped
+    networks:
+      - npm-net
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Manila
+    volumes:
+      - ./sonarr:/config
+      - /mnt/slow_2tb/shares/media/series:/tv #optional
+      - /mnt/slow_2tb/shares/downloads/movies:/downloads #optional
+    ports:
+      - 8989:8989
+    restart: unless-stopped
+  openbooks:
+    image: evanbuss/openbooks
+    container_name: openbooks
+#    ports:
+#      - "8080:80"
+    volumes:
+      - "/mnt/slow_2tb/shares/downloads/books:/books"
+    command: "--persist"
+    restart: unless-stopped
+    networks:
+      - npm-net
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Manila
+    volumes:
+      - ./radarr:/config
+      - /mnt/slow_2tb/shares/media/movies:/movies #optional
+      - /mnt/slow_2tb/shares/downloads/movies:/downloads #optional
+#    ports:
+#      - 7878:7878
+    restart: unless-stopped
+    networks:
+      - npm-net
+  readarr:
+    image: lscr.io/linuxserver/readarr:develop
+    container_name: readarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Manila
+    volumes:
+      - ./readarr:/config
+      - /mnt/slow_2tb/shares/media/books:/books #optional
+      - /mnt/slow_2tb/shares/downloads/books:/downloads #optional
+#    ports:
+#      - 8787:8787
+    restart: unless-stopped
+    networks:
+      - npm-net
+  deluge:
+    image: lscr.io/linuxserver/deluge:latest
+    container_name: deluge
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Manila
+      - DELUGE_LOGLEVEL=error #optional
+    volumes:
+      - ./deluge:/config
+      - /mnt/slow_2tb/shares/downloads:/downloads
+      - /mnt/slow_2tb/shares/downloads/movies:/downloads/movies
+      - /mnt/slow_2tb/shares/downloads/series:/downloads/series
+    ports:
+#      - 8112:8112
+      - 6881:6881
+      - 6881:6881/udp
+      - 58846:58846 #optional
+    restart: unless-stopped
+    networks:
+      - npm-net
   jellyfin:
     image: lscr.io/linuxserver/jellyfin:latest
     container_name: jellyfin
@@ -23,7 +118,7 @@ services:
       - JELLYFIN_PublishedServerUrl=https://jellyfin.minihomebox.duckdns.org #optional
     volumes:
       - ./jellyfin:/config
-      - ./mnt/slow_2tb/shares/media/shows:/data/tvshows
+      - /mnt/slow_2tb/shares/media/series:/data/tvshows
       - /mnt/slow_2tb/shares/media/movies:/data/movies
     ports:
 #      - 8096:8096
@@ -31,6 +126,8 @@ services:
       - 7359:7359/udp #optional
       - 1900:1900/udp #optional
     restart: unless-stopped
+    networks:
+      - npm-net
 #  wg-easy:
 #    environment:
 #      # ⚠️ Change the server's hostname (clients will connect to):
