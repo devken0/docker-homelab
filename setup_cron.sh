@@ -56,6 +56,8 @@ read -p "Enter the frequency for the cron job github_commit_script.sh (e.g., * *
 #(crontab -l ; echo "*/30 * * * * rm $(pwd)/cron_log.log") | crontab -
 read -p "Enter the frequency for the cron job db_backup_script.sh (e.g., * * * * * for every minute): " BACKUP_CRON_FREQUENCY
 (crontab -l ; echo "$BACKUP_CRON_FREQUENCY $(pwd)/scripts/db_backup_script.sh >> $(pwd)/cron.log 2>&1") | crontab -
+# Logs cleanup 
+(crontab -l ; echo "0 * * * * rm $(pwd)/cron.log") | crontab -
 #(crontab -l ; echo "*/5 * * * * docker exec --user www-data -it nextcloud-aio-nextcloud php occ files:scan --all") | crontab - 
 
 echo "Cron job has been set up."
