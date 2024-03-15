@@ -564,20 +564,20 @@ services:
     restart: unless-stopped
     networks:
       - npm-net
-  yacht:
-    container_name: yacht
-    restart: always
-      #    ports:
-      #      - 8000:8000
-    volumes:
-      - ./yacht/config:/config
-      - /var/run/docker.sock:/var/run/docker.sock
-    environment:
-      PUID: 1000
-      PGID: 1000
-    image: selfhostedpro/yacht    
-    networks:
-      - npm-net
+#  yacht:
+#    container_name: yacht
+#    restart: always
+#      #    ports:
+#      #      - 8000:8000
+#    volumes:
+#      - ./yacht/config:/config
+#      - /var/run/docker.sock:/var/run/docker.sock
+#    environment:
+#      PUID: 1000
+#      PGID: 1000
+#    image: selfhostedpro/yacht    
+#    networks:
+#      - npm-net
   #airsonic-advanced:
   #  image: lscr.io/linuxserver/airsonic-advanced:latest
   #  container_name: airsonic-advanced
@@ -888,14 +888,16 @@ services:
   #version: '3.5'
   #services:
   #
-  #  portainer:
-  #    image: portainer/portainer-ce:latest
-  #    container_name: portainer
-  #    volumes:
-  #      - portainer-data:/data
-  #      - /var/run/docker.sock:/var/run/docker.sock
-  #    restart: always
-  #
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    volumes:
+      - ./portainer:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: always
+    networks:
+      - npm-net
+
   #  homer:
   #    image: b4bz/homer:latest
   #    #to build from source, comment previous line and uncomment below
