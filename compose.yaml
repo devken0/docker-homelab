@@ -13,6 +13,21 @@ networks:
 #  nextcloud_aio_mastercontainer:
 #    name: nextcloud_aio_mastercontainer
 services:
+  remmina:
+    image: lscr.io/linuxserver/remmina:latest
+    container_name: remmina
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=$TIMEZONE
+    volumes:
+      - ./remmina:/config
+#    ports:
+#      - 3000:3000
+#      - 3001:3001
+    restart: unless-stopped
+    networks:
+      - npm-net
   changedetection.io:
     image: lscr.io/linuxserver/changedetection.io:latest
     container_name: changedetection
