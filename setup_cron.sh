@@ -41,8 +41,34 @@ else
 fi
 EOF
 
-cat <<EOF > scripts/db_backup_script.sh
+cat <<EOF > scripts/backup_script.sh
 #!/usr/bin/env bash
+
+# Cleanup script for photoprism database backups
+
+backup_dir="$HOME/docker-homelab/photoprism/storage/backup/mysql"
+
+# Get today's date in the format yyyy-mm-dd
+current_date=$(date +"%Y-%m-%d")
+
+# Calculate the date 3 days ago
+three_days_ago=$(date -d "3 days ago" +"%Y-%m-%d")
+
+# List all files in the backup directory
+files=$(ls "$backup_dir")
+
+# Loop through each file
+for file in $files; do
+    # Extract the date from the filename (assuming the format is yyyy-mm-dd.mysql)
+    file_date=$(echo "$file" | cut -d'.' -f1)
+
+    # Compare the file date with three days ago
+    if [[ "$file_date" < "$three_days_ago" ]]; then
+        # If the file is older than three days, delete it
+        rm "$backup_dir/$file"
+        echo "Deleted $file"
+    fi
+done
 docker exec photoprism photoprism backup -i -f
 docker exec paperless-webserver-1 document_exporter ../export
 EOF
