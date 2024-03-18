@@ -626,12 +626,12 @@ services:
     container_name: syncthing
     hostname: $HOSTNAME #optional
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=33
+      - PGID=33
       - TZ=$TIMEZONE
     volumes:
       - ./syncthing/config:/config
-      - ./syncthing/data:/data
+      - $NEXTCLOUD_DATADIR_FILES/Sync:/data
 #      - ./syncthing/sync/App-Exports:/data/App-Exports
 #      - ./syncthing/sync/App-Backups:/data/App-Backups
 #      - ./syncthing/sync/Crypt:/data/Crypt
