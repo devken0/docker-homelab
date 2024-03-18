@@ -763,7 +763,7 @@ services:
     environment:
       APACHE_PORT: 11000
       APACHE_IP_BINDING: "0.0.0.0"
-      NEXTCLOUD_DATADIR: "$HOME/docker-homelab/ncdata"
+      NEXTCLOUD_DATADIR: "$HOME/ncdata"
       NEXTCLOUD_MOUNT: "/mnt/slow_2tb"
       SKIP_DOMAIN_VALIDATION: true
       NEXTCLOUD_ENABLE_DRI_DEVICE: true
