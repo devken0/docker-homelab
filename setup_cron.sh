@@ -35,7 +35,7 @@ else
     git config user.name "\$GIT_USERNAME"
     git config user.email "\$GIT_EMAIL"
     git add "\$FILE_TO_MONITOR"
-    git commit -m "\$COMMIT_MESSAGE (automated)"
+    git commit -m "\$COMMIT_MESSAGE (github_commit_script.sh)"
     git push "\$REPO_URL" "\$BRANCH"
     echo "Changes committed and pushed successfully. $CURRENT_DATE_TIME"
 fi
