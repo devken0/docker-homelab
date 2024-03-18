@@ -8,11 +8,11 @@ networks:
 #        - subnet: 10.8.1.0/24
   npm-net:
     driver: bridge
-  nextcloud-aio:
-    external: true
-volumes:
-  nextcloud_aio_mastercontainer:
-    name: nextcloud_aio_mastercontainer
+#  nextcloud-aio:
+#    external: true
+#volumes:
+#  nextcloud_aio_mastercontainer:
+#    name: nextcloud_aio_mastercontainer
 services:
   #  code-server:
   #    image: lscr.io/linuxserver/code-server:latest
@@ -574,7 +574,7 @@ services:
       - ./nginxproxymanager/letsencrypt:/etc/letsencrypt
     networks:
       - npm-net 
-      - nextcloud-aio
+#      - nextcloud-aio
   syncthing:
     image: lscr.io/linuxserver/syncthing:latest
     container_name: syncthing
@@ -710,26 +710,26 @@ services:
     restart: always
     networks:
       - npm-net
-  nextcloud-aio-mastercontainer:
-    image: nextcloud/all-in-one:latest
-    container_name: nextcloud-aio-mastercontainer
-    init: true
-    restart: always
-    ports:
-      - 8080:8080
-    environment:
-      APACHE_PORT: 11000
-      APACHE_IP_BINDING: "0.0.0.0"
-      NEXTCLOUD_DATADIR: "$SYNCTHING_DATA"
-      NEXTCLOUD_MOUNT: "/mnt/"
-      SKIP_DOMAIN_VALIDATION: true
-      NEXTCLOUD_ENABLE_DRI_DEVICE: true
-    volumes:
-      - nextcloud_aio_mastercontainer:/mnt/docker-aio-config
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    networks:
-      - npm-net
-      - nextcloud-aio
+#  nextcloud-aio-mastercontainer:
+#    image: nextcloud/all-in-one:latest
+#    container_name: nextcloud-aio-mastercontainer
+#    init: true
+#    restart: always
+#    ports:
+#      - 8080:8080
+#    environment:
+#      APACHE_PORT: 11000
+#      APACHE_IP_BINDING: "0.0.0.0"
+#      NEXTCLOUD_DATADIR: "$SYNCTHING_DATA"
+#      NEXTCLOUD_MOUNT: "/mnt/"
+#      SKIP_DOMAIN_VALIDATION: true
+#      NEXTCLOUD_ENABLE_DRI_DEVICE: true
+#    volumes:
+#      - nextcloud_aio_mastercontainer:/mnt/docker-aio-config
+#      - /var/run/docker.sock:/var/run/docker.sock:ro
+#    networks:
+#      - npm-net
+#      - nextcloud-aio
 
 #  ntfy:
 #    image: binwiederhier/ntfy
