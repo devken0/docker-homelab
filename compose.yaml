@@ -8,8 +8,8 @@ networks:
 #        - subnet: 10.8.1.0/24
   npm-net:
     driver: bridge
-nextcloud-aio:
-  external: true
+#  nextcloud-aio:
+#    external: true
 volumes:
   nextcloud_aio_mastercontainer:
     name: nextcloud_aio_mastercontainer
@@ -574,7 +574,7 @@ services:
       - ./nginxproxymanager/letsencrypt:/etc/letsencrypt
     networks:
       - npm-net 
-      - nextcloud-aio
+#      - nextcloud-aio
   syncthing:
     image: lscr.io/linuxserver/syncthing:latest
     container_name: syncthing
@@ -729,7 +729,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       - npm-net
-      - nextcloud-aio
+#      - nextcloud-aio
 
 #  ntfy:
 #    image: binwiederhier/ntfy
