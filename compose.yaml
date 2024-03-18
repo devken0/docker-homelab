@@ -14,26 +14,41 @@ networks:
 #  nextcloud_aio_mastercontainer:
 #    name: nextcloud_aio_mastercontainer
 services:
-  #  code-server:
-  #    image: lscr.io/linuxserver/code-server:latest
-  #    container_name: code-server
-  #    environment:
-  #      - PUID=1000
-  #      - PGID=1000
-  #      - TZ=Etc/UTC
-  #      - PASSWORD=password #optional
-  #      - HASHED_PASSWORD= #optional
-  #      - SUDO_PASSWORD=password #optional
-  #      - SUDO_PASSWORD_HASH= #optional
-  #      - PROXY_DOMAIN=code-server.my.domain #optional
-  #      - DEFAULT_WORKSPACE=/config/workspace #optional
-  #    volumes:
-  #      - ./config:/config
-  ##    ports:
-  ##      - 8443:8443
-  #    restart: unless-stopped
-  #    networks:
-  #      - npm-net
+  onlyoffice:
+    image: onlyoffice/documentserver
+#    ports:
+#      - "80:80"
+    restart: always
+    environment:
+      JWT_SECRET: $ONLYOFFICE_JWT_SECRET
+    volumes:
+      - ./onlyoffice/logs:/var/log/onlyoffice
+      - ./onlyoffice/data:/var/www/onlyoffice/Data
+      - ./onlyoffice/lib:/var/lib/onlyoffice
+      - ./onlyoffice/db:/var/lib/postgresql
+    networks:
+      - npm-net
+  code-server:
+    image: lscr.io/linuxserver/code-server:latest
+    container_name: code-server
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=$TIMEZONE
+#      - PASSWORD=password #optional
+#      - HASHED_PASSWORD= #optional
+#      - SUDO_PASSWORD=password #optional
+#      - SUDO_PASSWORD_HASH= #optional
+#      - PROXY_DOMAIN=code-server.my.domain #optional
+#      - DEFAULT_WORKSPACE=/config/workspace #optional
+    volumes:
+      - ./config:/config
+      - ~/docker-homelab:/docker-homelab 
+#    ports:
+#      - 8443:8443
+    restart: unless-stopped
+    networks:
+      - npm-net
   remmina:
     image: lscr.io/linuxserver/remmina:latest
     container_name: remmina
