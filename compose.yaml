@@ -630,7 +630,7 @@ services:
       - PGID=33
       - TZ=$TIMEZONE
     volumes:
-      - ./syncthing/config:/config
+      - ./syncthing:/config
       - $NEXTCLOUD_DATADIR_FILES/Sync:/data
 #      - ./syncthing/sync/App-Exports:/data/App-Exports
 #      - ./syncthing/sync/App-Backups:/data/App-Backups
