@@ -488,8 +488,8 @@ services:
       ## Run/install on first startup (options: update https gpu tensorflow davfs clitools clean):
 #      PHOTOPRISM_INIT: "intel tensorflow"
       ## Run as a non-root user after initialization (supported: 0, 33, 50-99, 500-600, and 900-1200):
-      PHOTOPRISM_UID: 0
-      PHOTOPRISM_GID: 0
+      PHOTOPRISM_UID: 33
+      PHOTOPRISM_GID: 33
 #      PHOTOPRISM_UMASK: 0000
     ## Start as non-root user before initialization (supported: 0, 33, 50-99, 500-600, and 900-1200):
 #    user: "1000:1000"
@@ -498,7 +498,7 @@ services:
       - "/dev/dri:/dev/dri"                         # Intel QSV
     working_dir: "/photoprism" # do not change or remove
     volumes:
-      - "$NEXTCLOUD_SNAP_DATADIR/Photos:/photoprism/originals"               # Original media files (DO NOT REMOVE)
+      - "$NEXTCLOUD_DATADIR/Photos:/photoprism/originals"               # Original media files (DO NOT REMOVE)
 #      - "/mnt/cache:/photoprism/storage/cache"
 #      - "/example/family:/photoprism/originals/family" # *Additional* media folders can be mounted like this
 #      - "~/Import:/photoprism/import"                  # *Optional* base folder from which files can be imported to originals
