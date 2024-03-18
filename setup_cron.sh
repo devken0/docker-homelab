@@ -9,9 +9,9 @@ read -p "Enter your GitHub username: " GIT_USERNAME
 read -p "Enter your GitHub email address: " GIT_EMAIL
 
 # Create the script with provided inputs
-mkdir scripts
+mkdir ~/bin
 
-cat <<EOF > scripts/github_commit_script.sh
+cat <<EOF > $HOME/bin/github_commit_script.sh
 #!/usr/bin/env bash
 
 # Define variables
@@ -41,7 +41,7 @@ else
 fi
 EOF
 
-cat <<EOF > scripts/backup_script.sh
+cat <<EOF > $HOME/bin/db_backup_script.sh
 #!/usr/bin/env bash
 
 # Cleanup script for photoprism database backups
@@ -74,15 +74,15 @@ docker exec paperless-webserver-1 document_exporter ../export
 EOF
 
 # Make the script executable
-chmod +x github_commit_script.sh
-chmod +x db_backup_script.sh.sh
+chmod +x ~/bin/github_commit_script.sh
+chmod +x ~/bin/db_backup_script.sh.sh
 
 # Add the cron job
 read -p "Enter the frequency for the cron job github_commit_script.sh (e.g., * * * * * for every minute): " COMMIT_CRON_FREQUENCY
-(crontab -l ; echo "$COMMIT_CRON_FREQUENCY $(pwd)/scripts/github_commit_script.sh") | crontab -
+(crontab -l ; echo "$COMMIT_CRON_FREQUENCY $HOME/bin/github_commit_script.sh") | crontab -
 #(crontab -l ; echo "*/30 * * * * rm $(pwd)/cron_log.log") | crontab -
 read -p "Enter the frequency for the cron job db_backup_script.sh (e.g., * * * * * for every minute): " BACKUP_CRON_FREQUENCY
-(crontab -l ; echo "$BACKUP_CRON_FREQUENCY $(pwd)/scripts/db_backup_script.sh >> $(pwd)/cron.log 2>&1") | crontab -
+(crontab -l ; echo "$BACKUP_CRON_FREQUENCY $HOME/bin/db_backup_script.sh >> $(pwd)/cron.log 2>&1") | crontab -
 # Logs cleanup 
 (crontab -l ; echo "0 * * * * rm $(pwd)/cron.log") | crontab -
 #(crontab -l ; echo "*/5 * * * * docker exec --user www-data -it nextcloud-aio-nextcloud php occ files:scan --all") | crontab - 
