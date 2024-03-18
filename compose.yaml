@@ -19,12 +19,12 @@ services:
 #    ports:
 #      - 13378:80
     volumes:
-      - </path/to/audiobooks>:/audiobooks
-      - </path/to/podcasts>:/podcasts
-      - </path/to/config>:/config
-      - </path/to/metadata>:/metadata
+      - $MEDIA_PATH/audiobooks:/audiobooks
+      - $MEDIA_PATH/podcasts:/podcasts
+      - ./audiobookshelf/config:/config
+      - ./audiobookshelf/metadata:/metadata
     environment:
-      - TZ=America/Toronto
+      - TZ=$TIMEZONE
     networks:
       - npm-net
     restart: unless-stopped
