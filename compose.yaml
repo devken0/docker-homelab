@@ -632,13 +632,8 @@ services:
       - ./syncthing/config:/config
       - $SYNCTHING_DATADIR/app-exports:/data/app-exports
       - $SYNCTHING_DATADIR/app-backups:/data/app-backups
-#      - ./syncthing/data/app-backups:/data/app-backups
-#      - ./syncthing/data/app-exports:/data/app-exports
-#      - ./syncthing/data/documents:/data/documents
-#      - ./syncthing/data/dcim:/data/dcim
-#      - ./syncthing/data/music:/data/music
-#      - ./syncthing/data/pictures:/data/pictures
-#      - ./syncthing/data/sounds:/data/sounds
+      - $SYNCTHING_DATADIR/crypt:/data/crypt
+      - $SYNCTHING_DATADIR/obsidian:/data/obsidian
     ports:
       #- 8384:8384
       - 22000:22000/tcp
