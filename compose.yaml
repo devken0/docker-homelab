@@ -584,7 +584,7 @@ services:
       - PGID=1000
       - TZ=$TIMEZONE
     volumes:
-      - ./syncthing:/config
+      - ./syncthing/config:/config
       - ./syncthing/data/app-backups:/data/app-backups
       - ./syncthing/data/app-exports:/data/app-exports
       - ./syncthing/data/documents:/data/documents
