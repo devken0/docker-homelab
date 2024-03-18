@@ -630,11 +630,12 @@ services:
       - PGID=1000
       - TZ=$TIMEZONE
     volumes:
-      - ./syncthing:/config
-      - $SYNCTHING_DATADIR/App-Exports:/data/App-Exports
-      - $SYNCTHING_DATADIR/App-Backups:/data/App-Backups
-      - $SYNCTHING_DATADIR/Crypt:/data/Crypt
-      - $SYNCTHING_DATADIR/Obsidian:/data/Obsidian
+      - ./syncthing/config:/config
+      - ./syncthing/data:/data
+#      - ./syncthing/sync/App-Exports:/data/App-Exports
+#      - ./syncthing/sync/App-Backups:/data/App-Backups
+#      - ./syncthing/sync/Crypt:/data/Crypt
+#      - ./syncthing/sync/Obsidian:/data/Obsidian
     ports:
       #- 8384:8384
       - 22000:22000/tcp
