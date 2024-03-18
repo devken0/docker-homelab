@@ -623,15 +623,17 @@ services:
   syncthing:
     image: lscr.io/linuxserver/syncthing:latest
     container_name: syncthing
-    hostname: minihomebox #optional
+    hostname: $HOSTNAME #optional
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=$TIMEZONE
     volumes:
       - ./syncthing/config:/config
-      - ./syncthing/data/app-backups:/data/app-backups
-      - ./syncthing/data/app-exports:/data/app-exports
+      - $SYNCTHING_DATADIR/app-exports:/data/app-exports
+      - $SYNCTHING_DATADIR/app-backups:/data/app-backups
+#      - ./syncthing/data/app-backups:/data/app-backups
+#      - ./syncthing/data/app-exports:/data/app-exports
 #      - ./syncthing/data/documents:/data/documents
 #      - ./syncthing/data/dcim:/data/dcim
 #      - ./syncthing/data/music:/data/music
