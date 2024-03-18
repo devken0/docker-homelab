@@ -43,20 +43,20 @@ services:
     restart: unless-stopped
     networks:
       - npm-net
-  onlyoffice:
-    image: onlyoffice/documentserver
-#    ports:
-#      - "80:80"
-    restart: always
-    environment:
-      JWT_SECRET: $ONLYOFFICE_JWT_SECRET
-    volumes:
-      - ./onlyoffice/logs:/var/log/onlyoffice
-      - ./onlyoffice/data:/var/www/onlyoffice/Data
-      - ./onlyoffice/lib:/var/lib/onlyoffice
-      - ./onlyoffice/db:/var/lib/postgresql
-    networks:
-      - npm-net
+#  onlyoffice:
+#    image: onlyoffice/documentserver
+##    ports:
+##      - "80:80"
+#    restart: always
+#    environment:
+#      JWT_SECRET: $ONLYOFFICE_JWT_SECRET
+#    volumes:
+#      - ./onlyoffice/logs:/var/log/onlyoffice
+#      - ./onlyoffice/data:/var/www/onlyoffice/Data
+#      - ./onlyoffice/lib:/var/lib/onlyoffice
+#      - ./onlyoffice/db:/var/lib/postgresql
+#    networks:
+#      - npm-net
   code-server:
     image: lscr.io/linuxserver/code-server:latest
     container_name: code-server
