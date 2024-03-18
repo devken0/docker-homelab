@@ -46,6 +46,7 @@ services:
       - npm-net
   onlyoffice:
     image: onlyoffice/documentserver
+    container_name: onlyoffice
 #    ports:
 #      - "80:80"
     restart: always
