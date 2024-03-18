@@ -47,8 +47,8 @@ services:
   onlyoffice:
     image: onlyoffice/documentserver
     container_name: onlyoffice
-#    ports:
-#      - "84:80"
+    ports:
+      - "84:80"
     restart: always
     environment:
       JWT_SECRET: $ONLYOFFICE_JWT_SECRET
