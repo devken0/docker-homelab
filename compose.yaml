@@ -72,7 +72,7 @@ services:
 #      - PROXY_DOMAIN=code-server.my.domain #optional
 #      - DEFAULT_WORKSPACE=/config/workspace #optional
     volumes:
-      - ./config:/config
+      - ./code-server:/config
       - ~/docker-homelab:/docker-homelab 
 #    ports:
 #      - 8443:8443
@@ -562,7 +562,7 @@ services:
   omada-controller:
     container_name: omada-controller
     image: mbentley/omada-controller:latest
-    restart: unless-stopped
+#    restart: unless-stopped
     ulimits:
       nofile:
         soft: 4096
