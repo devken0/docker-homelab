@@ -1,8 +1,10 @@
 ---
-# For configuration options and examples, please see:
-# https://gethomepage.dev/latest/configs/settings
-
 title: My Amazing Homepage
+base: https://dashboard.minihomebox.duckdns.org
+language: en
+hideVersion: true
+target: _blank # Use _blank to open links in a new tab, _self to open links in the same tab, and _top to open links in a new window.
+#startUrl: # default is "/"
 background:
 #  image: /images/background.png
   image: https://images.unsplash.com/photo-1439792675105-701e6a4ab6f0?q=80&w=2073&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D 
@@ -10,12 +12,75 @@ background:
   saturate: 50 # 0, 50, 100... see https://tailwindcss.com/docs/backdrop-saturate
   brightness: 50 # 0, 50, 75... see https://tailwindcss.com/docs/backdrop-brightness
   opacity: 50 # 0-100
-#cardblur: sm # does not work with background:
+#cardblur: sm # does not work with background-blur
 #favicon: https://www.google.com/favicon.ico
 theme: dark
-#color: slate # Supported colors are: slate, gray, zinc, neutral, stone, amber, yellow, lime, green, emerald, teal, cyan, sky, blue, indigo, violet, purple, fuchsia, pink, rose, red, white
-
-
+color: slate # Supported colors are: slate, gray, zinc, neutral, stone, amber, yellow, lime, green, emerald, teal, cyan, sky, blue, indigo, violet, purple, fuchsia, pink, rose, red, white
+#layout:
+#  - Group1
+#  - Group2
+#  - Group3
+#      style: row
+#      column: 3
+#  Media:
+#    tab: First
+#    style: row 
+#    columns: 4
+#    header: false
+#    #icon: testing.png
+#    icon: https://testing.png
+#    initiallyCollapsed: true
+#    #useEqualHeights: true # overrides global setting
+#
+# This can also be set for individual services. Note setting this at the service level overrides any setting in settings.json, e.g.:
+#- Example Service:
+#    href: https://example.com/
+#    ...
+#    target: _self
+iconStyle: theme # default is gradient
+#fiveColumns: true # by default max of 4 columns
+disableCollapse: false # enabled by default
+#groupsInitiallyCollapsed: true # disabled by default
+useEqualHeights: true
+headerStyle: underlined # underlined (default), clean, boxed, boxedWidgets
 providers:
-  openweathermap: openweathermapapikey
-  weatherapi: weatherapiapikey
+  openweathermap: $OPENWEATHERMAP_API
+  weatherapi: $WEATHER_API
+  longhorn:
+    url: $LONGHORN_URL
+    username: $LONGHORN_USERNAME
+    password: $LONGHORN_PASSWORD
+# You can then pass provider instead of apiKey in your widget configuration.
+#- weather:
+#    latitude: 50.449684
+#    longitude: 30.525026
+#    provider: weatherapi
+quicklaunch:
+  searchDescriptions: true
+  hideInternetSearch: false
+  showSearchSuggestions: true
+  hideVisitURL: false
+#logpath: /logfile/path
+showStats: true
+# or per-service (services.yaml) with:
+#- Example Service:
+#    ...
+#    showStats: true
+statusStyle: "dot" # dot shows a green dot for a successful monitor ping or healthy status. basic shows either UP or DOWN for monitor & ping
+# or per-service (services.yaml) with:
+#- Example Service:
+#    ...
+#    statusStyle: 'dot'
+#instanceName: public # Name used by automatic docker service discovery to differentiate between multiple homepage instances.
+hideErrors: false
+#or per service widget (services.yaml) with:
+#- Example Service:
+#    ...
+#    widget:
+#    ...
+#        hideErrors: true
+
+
+
+
+

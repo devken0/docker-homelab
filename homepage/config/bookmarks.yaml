@@ -1,11 +1,8 @@
 ---
-# For configuration options and examples, please see:
-# https://gethomepage.dev/latest/configs/bookmarks
-
 - Developer:
     - Github:
         - abbr: GH
-          href: https://github.com/
+          href: https://github.com/devken0
 
 - Social:
     - Reddit:
@@ -16,3 +13,8 @@
     - YouTube:
         - abbr: YT
           href: https://youtube.com/
+
+- Cloud:
+    - OneDrive:
+        - abbr: OD
+          href: https://onedrive.live
