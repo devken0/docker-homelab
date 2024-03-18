@@ -442,8 +442,8 @@ services:
       ## Run/install on first startup (options: update https gpu tensorflow davfs clitools clean):
 #      PHOTOPRISM_INIT: "intel tensorflow"
       ## Run as a non-root user after initialization (supported: 0, 33, 50-99, 500-600, and 900-1200):
-      PHOTOPRISM_UID: 33
-      PHOTOPRISM_GID: 33
+      PHOTOPRISM_UID: 1000
+      PHOTOPRISM_GID: 1000
 #      PHOTOPRISM_UMASK: 0000
     ## Start as non-root user before initialization (supported: 0, 33, 50-99, 500-600, and 900-1200):
 #    user: "1000:1000"
@@ -580,18 +580,18 @@ services:
     container_name: syncthing
     hostname: minihomebox #optional
     environment:
-      - PUID=33
-      - PGID=33
+      - PUID=1000
+      - PGID=1000
       - TZ=$TIMEZONE
     volumes:
       - ./syncthing:/config
-      - ./syncthing/App-Backups:/data/App-Backups
-      - ./syncthing/App-Exports:/data/App-Exports
-      - ./syncthing/Documents:/data/Documents
-      - ./syncthing/DCIM:/data/DCIM
-      - ./syncthing/Music:/data/Music
-      - ./syncthing/Pictures:/data/Pictures
-      - ./syncthing/Sounds:/data/Sounds
+      - ./syncthing/data/app-backups:/data/app-backups
+      - ./syncthing/data/app-exports:/data/app-exports
+      - ./syncthing/data/documents:/data/documents
+      - ./syncthing/data/dcim:/data/dcim
+      - ./syncthing/data/music:/data/music
+      - ./syncthing/data/pictures:/data/pictures
+      - ./syncthing/data/sounds:/data/sounds
     ports:
       #- 8384:8384
       - 22000:22000/tcp
