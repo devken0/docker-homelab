@@ -53,6 +53,8 @@ services:
     restart: always
     environment:
       JWT_SECRET: $ONLYOFFICE_JWT_SECRET
+      LETS_ENCRYPT_DOMAIN: $ONLYOFFICE_LETS_ENCRYPT_DOMAIN
+      LETS_ENCRYPT_MAIL: $ONLYOFFICE_LETS_ENCRYPT_MAIL
     volumes:
       - ./onlyoffice/logs:/var/log/onlyoffice
       - ./onlyoffice/data:/var/www/onlyoffice/Data
