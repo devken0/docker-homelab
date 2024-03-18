@@ -395,7 +395,7 @@ services:
     volumes:
       - "./navidrome:/data"
       - "$MUSIC_PATH:/music:ro"
-#      - "$NEXTCLOUD_DATADIR/Music:/music:ro"
+#      - "$NEXTCLOUD_DATADIR_FILES/Music:/music:ro"
     networks:
       - npm-net
 #  kasm:
@@ -498,7 +498,7 @@ services:
       - "/dev/dri:/dev/dri"                         # Intel QSV
     working_dir: "/photoprism" # do not change or remove
     volumes:
-      - "$NEXTCLOUD_DATADIR/Photos:/photoprism/originals"               # Original media files (DO NOT REMOVE)
+      - "$NEXTCLOUD_DATADIR_FILES/Photos:/photoprism/originals"               # Original media files (DO NOT REMOVE)
 #      - "/mnt/cache:/photoprism/storage/cache"
 #      - "/example/family:/photoprism/originals/family" # *Additional* media folders can be mounted like this
 #      - "~/Import:/photoprism/import"                  # *Optional* base folder from which files can be imported to originals
@@ -668,9 +668,9 @@ services:
   #    - JAVA_OPTS= #optional
   #  volumes:
   #    - ./airsonic-adv/config:/config
-  #    - $NEXTCLOUD_DATADIR/Music:/music
-  #    - $NEXTCLOUD_DATADIR/Playlists:/playlists
-  #    - $NEXTCLOUD_DATADIR/Podcasts:/podcasts
+  #    - $NEXTCLOUD_DATADIR_FILES/Music:/music
+  #    - $NEXTCLOUD_DATADIR_FILES/Playlists:/playlists
+  #    - $NEXTCLOUD_DATADIR_FILES/Podcasts:/podcasts
   #      #      - /path/to/other media:/media #optional
   #      #    ports:
   #    #      - 4040:4040
