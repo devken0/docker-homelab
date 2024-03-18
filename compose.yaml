@@ -49,6 +49,7 @@ services:
     container_name: onlyoffice
     ports:
       - "84:80"
+      - "553:443"
     restart: always
     environment:
       JWT_SECRET: $ONLYOFFICE_JWT_SECRET
