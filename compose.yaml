@@ -157,21 +157,21 @@ services:
     restart: unless-stopped
     networks:
       - npm-net
-  nzbhydra2:
-    image: lscr.io/linuxserver/nzbhydra2:latest
-    container_name: nzbhydra2
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=$TIMEZONE
-    volumes:
-      - ./nzbhydra2:/config
-      - $USENET_DOWNLOADS_PATH:/downloads
-#    ports:
-#      - 5076:5076
-    restart: unless-stopped
-    networks:
-      - npm-net
+#  nzbhydra2:
+#    image: lscr.io/linuxserver/nzbhydra2:latest
+#    container_name: nzbhydra2
+#    environment:
+#      - PUID=1000
+#      - PGID=1000
+#      - TZ=$TIMEZONE
+#    volumes:
+#      - ./nzbhydra2:/config
+#      - $USENET_DOWNLOADS_PATH:/downloads
+##    ports:
+##      - 5076:5076
+#    restart: unless-stopped
+#    networks:
+#      - npm-net
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
