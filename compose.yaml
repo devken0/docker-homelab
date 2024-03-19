@@ -663,8 +663,8 @@ services:
     container_name: syncthing
     hostname: $HOSTNAME #optional
     environment:
-      - PUID=33
-      - PGID=33
+      - PUID=1000
+      - PGID=1000
       - TZ=$TIMEZONE
     volumes:
       - ./syncthing:/config
