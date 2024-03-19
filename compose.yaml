@@ -14,20 +14,20 @@ volumes:
   nextcloud_aio_mastercontainer:
     name: nextcloud_aio_mastercontainer
 services:
-  flaresolverr:
-    # DockerHub mirror flaresolverr/flaresolverr:latest
-    image: ghcr.io/flaresolverr/flaresolverr:latest
-    container_name: flaresolverr
-    environment:
-      - LOG_LEVEL=info
-      - LOG_HTML=false
-      - CAPTCHA_SOLVER=none
-      - TZ=$TIMEZONE
-    ports:
-      - "8191:8191"
-    restart: unless-stopped
-    networks:
-      - npm-net
+#  flaresolverr:
+#    # DockerHub mirror flaresolverr/flaresolverr:latest
+#    image: ghcr.io/flaresolverr/flaresolverr:latest
+#    container_name: flaresolverr
+#    environment:
+#      - LOG_LEVEL=info
+#      - LOG_HTML=false
+#      - CAPTCHA_SOLVER=none
+#      - TZ=$TIMEZONE
+#    ports:
+#      - "8191:8191"
+#    restart: unless-stopped
+#    networks:
+#      - npm-net
   audiobookshelf:
     image: ghcr.io/advplyr/audiobookshelf:latest
     container_name: audiobookshelf
@@ -230,11 +230,9 @@ services:
     volumes:
       - ./jackett:/config
       - $DOWNLOADS_PATH:/downloads
-#    ports:
-#      - 9117:9117
+    ports:
+      - 9117:9117
     restart: unless-stopped
-    networks:
-      - npm-net
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
