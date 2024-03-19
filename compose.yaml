@@ -244,8 +244,8 @@ services:
       - TZ=$TIMEZONE
     volumes:
       - ./sonarr:/config
-      - $SERIES_PATH:/tv #optional
-      - $DOWNLOADS_PATH:/downloads #optional
+      - "$SERIES_PATH:/tv" #optional
+      - "$DOWNLOADS_PATH:/downloads" #optional
     ports:
       - 8989:8989
     restart: unless-stopped
