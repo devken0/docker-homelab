@@ -535,7 +535,7 @@ services:
       - "/dev/dri:/dev/dri"                         # Intel QSV
     working_dir: "/photoprism" # do not change or remove
     volumes:
-      - "./syncthing/data/Photos:/photoprism/originals"               # Original media files (DO NOT REMOVE)
+      - "$ARCHIVE_PATH/photos:/photoprism/originals"               # Original media files (DO NOT REMOVE)
 #      - "/mnt/cache:/photoprism/storage/cache"
 #      - "/example/family:/photoprism/originals/family" # *Additional* media folders can be mounted like this
 #      - "~/Import:/photoprism/import"                  # *Optional* base folder from which files can be imported to originals
@@ -668,9 +668,9 @@ services:
       - TZ=$TIMEZONE
     volumes:
       - ./syncthing/config:/config
-      - ./syncthing/data/Photos/DCIM:/data/DCIM
-      - ./syncthing/data/Photos/Pictures:/data/Pictures
-      - ./syncthing/data/Documents:/data/Documents
+      - ./syncthing/data/dcim:/data/dcim
+      - ./syncthing/data/pictures:/data/pictures
+      - ./syncthing/data/documents:/data/documents
     ports:
       #- 8384:8384
       - 22000:22000/tcp
