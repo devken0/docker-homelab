@@ -668,7 +668,8 @@ services:
       - TZ=$TIMEZONE
     volumes:
       - ./syncthing:/config
-      - $NEXTCLOUD_DATADIR_FILES/Sync:/data
+      - $NEXTCLOUD_DATADIR_FILES/Documents:/data/Documents
+      - $NEXTCLOUD_DATADIR_FILES/Photos:/data/Photos
 #      - ./syncthing/sync/App-Exports:/data/App-Exports
 #      - ./syncthing/sync/App-Backups:/data/App-Backups
 #      - ./syncthing/sync/Crypt:/data/Crypt
