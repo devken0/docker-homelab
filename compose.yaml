@@ -172,22 +172,22 @@ services:
     restart: unless-stopped
     networks:
       - npm-net
-  sabnzbd:
-    image: lscr.io/linuxserver/sabnzbd:latest
-    container_name: sabnzbd
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=$TIMEZONE
-    volumes:
-      - ./sabnzbd:/config
-      - $USENET_DOWNLOADS_PATH:/downloads #optional
-      - $USENET_INCOMPLETE_DOWNLOADS_PATH:/incomplete-downloads #optional
-#    ports:
-#      - 8080:8080
-    restart: unless-stopped
-    networks:
-      - npm-net
+#  sabnzbd:
+#    image: lscr.io/linuxserver/sabnzbd:latest
+#    container_name: sabnzbd
+#    environment:
+#      - PUID=1000
+#      - PGID=1000
+#      - TZ=$TIMEZONE
+#    volumes:
+#      - ./sabnzbd:/config
+#      - $USENET_DOWNLOADS_PATH:/downloads #optional
+#      - $USENET_INCOMPLETE_DOWNLOADS_PATH:/incomplete-downloads #optional
+##    ports:
+##      - 8080:8080
+#    restart: unless-stopped
+#    networks:
+#      - npm-net
   bazarr:
     image: lscr.io/linuxserver/bazarr:latest
     container_name: bazarr
