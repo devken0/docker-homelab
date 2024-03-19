@@ -230,9 +230,11 @@ services:
     volumes:
       - ./jackett:/config
       - $DOWNLOADS_PATH:/downloads
-    ports:
-      - 9117:9117
+#    ports:
+#      - 9117:9117
     restart: unless-stopped
+    networks:
+      - npm-net
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
