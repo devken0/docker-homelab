@@ -341,6 +341,7 @@ services:
       - ./jellyfin:/config
       - $SERIES_PATH:/data/tvshows
       - $MOVIES_PATH:/data/movies
+      - /dev/dri:/dev/dri
     ports:
 #      - 8096:8096
       - 8920:8920 #optional
