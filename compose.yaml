@@ -28,6 +28,8 @@ services:
       - ./whisparr:/config
       - $DOWNLOADS_PATH:/data/downloads
       - $MEDIA_PATH/whisparr:/data/media
+    networks:
+      - npm-net
   flaresolverr:
     # DockerHub mirror flaresolverr/flaresolverr:latest
     image: ghcr.io/flaresolverr/flaresolverr:latest
