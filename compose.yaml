@@ -261,7 +261,7 @@ services:
     volumes:
       - ./sonarr:/config
       - "$SERIES_PATH:/tv" #optional
-      - "$DOWNLOADS_PATH:/downloads" #optional
+      - "$TORRENT_DOWNLOADS_PATH:/downloads/torrents" #optional
     ports:
       - 8989:8989
     restart: unless-stopped
