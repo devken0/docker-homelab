@@ -535,7 +535,7 @@ services:
       - "/dev/dri:/dev/dri"                         # Intel QSV
     working_dir: "/photoprism" # do not change or remove
     volumes:
-      - "/mnt/slow_2tb/shares/personal/photos:/photoprism/originals"               # Original media files (DO NOT REMOVE)
+      - "/mnt/slow_2tb/shares/personal/ken/photos:/photoprism/originals"               # Original media files (DO NOT REMOVE)
 #      - "/mnt/cache:/photoprism/storage/cache"
 #      - "./syncthing/data/pictures:/photoprism/originals/pictures" # *Additional* media folders can be mounted like this
 #      - "./syncthing/data/dcim:/photoprism/originals/dcim" # *Additional* media folders can be mounted like this
@@ -668,11 +668,10 @@ services:
       - PGID=1000
       - TZ=$TIMEZONE
     volumes:
-      - ./syncthing/config:/config
-      - ~/personal
+      - ./syncthing:/config
       - /mnt/slow_2tb/shares/personal/photos/dcim:/data/dcim
       - /mnt/slow_2tb/shares/personal/photos/pictures:/data/pictures
-      - /mnt/slow_2tb/shares/personal/syncthing/data/documents:/data/documents
+      - /mnt/slow_2tb/shares/personal/documents:/data/documents
     ports:
       #- 8384:8384
       - 22000:22000/tcp
