@@ -8,11 +8,11 @@ networks:
 #        - subnet: 10.8.1.0/24
   npm-net:
     driver: bridge
-  nextcloud-aio:
-    external: true
-volumes:
-  nextcloud_aio_mastercontainer:
-    name: nextcloud_aio_mastercontainer
+#  nextcloud-aio:
+#    external: true
+#volumes:
+#  nextcloud_aio_mastercontainer:
+#  name: nextcloud_aio_mastercontainer
 services:
   whisparr:
     container_name: whisparr
@@ -525,8 +525,8 @@ services:
       ## Run/install on first startup (options: update https gpu tensorflow davfs clitools clean):
 #      PHOTOPRISM_INIT: "intel tensorflow"
       ## Run as a non-root user after initialization (supported: 0, 33, 50-99, 500-600, and 900-1200):
-      PHOTOPRISM_UID: 33
-      PHOTOPRISM_GID: 33
+      PHOTOPRISM_UID: 1000
+      PHOTOPRISM_GID: 1000
 #      PHOTOPRISM_UMASK: 0000
     ## Start as non-root user before initialization (supported: 0, 33, 50-99, 500-600, and 900-1200):
 #    user: "1000:1000"
@@ -535,7 +535,7 @@ services:
       - "/dev/dri:/dev/dri"                         # Intel QSV
     working_dir: "/photoprism" # do not change or remove
     volumes:
-      - "$NEXTCLOUD_DATADIR_FILES/Photos:/photoprism/originals"               # Original media files (DO NOT REMOVE)
+      - "./syncthing/data/Photos:/photoprism/originals"               # Original media files (DO NOT REMOVE)
 #      - "/mnt/cache:/photoprism/storage/cache"
 #      - "/example/family:/photoprism/originals/family" # *Additional* media folders can be mounted like this
 #      - "~/Import:/photoprism/import"                  # *Optional* base folder from which files can be imported to originals
@@ -657,7 +657,7 @@ services:
       - ./nginxproxymanager/letsencrypt:/etc/letsencrypt
     networks:
       - npm-net 
-      - nextcloud-aio
+#      - nextcloud-aio
   syncthing:
     image: lscr.io/linuxserver/syncthing:latest
     container_name: syncthing
@@ -667,14 +667,10 @@ services:
       - PGID=1000
       - TZ=$TIMEZONE
     volumes:
-      - ./syncthing:/config
-      - "$NEXTCLOUD_DATADIR_FILES/Documents:/data/Documents"
-      - "$NEXTCLOUD_DATADIR_FILES/Photos/PPA-LX2 DCIM:/data/DCIM"
-      - "$NEXTCLOUD_DATADIR_FILES/Photos/PPA-LX2 Pictures:/data/Pictures"
-#      - ./syncthing/sync/App-Exports:/data/App-Exports
-#      - ./syncthing/sync/App-Backups:/data/App-Backups
-#      - ./syncthing/sync/Crypt:/data/Crypt
-#      - ./syncthing/sync/Obsidian:/data/Obsidian
+      - ./syncthing/config:/config
+      - ./syncthing/data/Photos/DCIM:/data/DCIM
+      - ./syncthing/data/Photos/Pictures:/data/Pictures
+      - ./syncthing/data/Documents:/data/Documents
     ports:
       #- 8384:8384
       - 22000:22000/tcp
@@ -793,26 +789,26 @@ services:
     restart: always
     networks:
       - npm-net
-  nextcloud-aio-mastercontainer:
-    image: nextcloud/all-in-one:latest
-    container_name: nextcloud-aio-mastercontainer
-    init: true
-    restart: always
-#    ports:
-#      - 8080:8080
-    environment:
-      APACHE_PORT: 11000
-      APACHE_IP_BINDING: "0.0.0.0"
-      NEXTCLOUD_DATADIR: "$HOME/ncdata"
-      NEXTCLOUD_MOUNT: "/mnt/slow_2tb"
-      SKIP_DOMAIN_VALIDATION: true
-      NEXTCLOUD_ENABLE_DRI_DEVICE: true
-    volumes:
-      - nextcloud_aio_mastercontainer:/mnt/docker-aio-config
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    networks:
-      - npm-net
-      - nextcloud-aio
+#  nextcloud-aio-mastercontainer:
+#    image: nextcloud/all-in-one:latest
+#    container_name: nextcloud-aio-mastercontainer
+#    init: true
+#    restart: always
+##    ports:
+##      - 8080:8080
+#    environment:
+#      APACHE_PORT: 11000
+#      APACHE_IP_BINDING: "0.0.0.0"
+#      NEXTCLOUD_DATADIR: "$HOME/ncdata"
+#      NEXTCLOUD_MOUNT: "/mnt/slow_2tb"
+#      SKIP_DOMAIN_VALIDATION: true
+#      NEXTCLOUD_ENABLE_DRI_DEVICE: true
+#    volumes:
+#      - nextcloud_aio_mastercontainer:/mnt/docker-aio-config
+#      - /var/run/docker.sock:/var/run/docker.sock:ro
+#    networks:
+#      - npm-net
+#      - nextcloud-aio
 
 #  ntfy:
 #    image: binwiederhier/ntfy
