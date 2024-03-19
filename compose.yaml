@@ -44,24 +44,26 @@ services:
     restart: unless-stopped
     networks:
       - npm-net
-#  onlyoffice:
-#    image: onlyoffice/documentserver
-#    container_name: onlyoffice
-#    ports:
-#      - "84:80"
+  onlyoffice:
+    image: onlyoffice/documentserver
+    container_name: onlyoffice
+    ports:
+      - "8089:80"
 #      - "553:443"
-#    restart: always
-#    environment:
-#      JWT_SECRET: $ONLYOFFICE_JWT_SECRET
-##      LETS_ENCRYPT_DOMAIN: $ONLYOFFICE_LETS_ENCRYPT_DOMAIN
-##      LETS_ENCRYPT_MAIL: $ONLYOFFICE_LETS_ENCRYPT_MAIL
-#    volumes:
-#      - ./onlyoffice/logs:/var/log/onlyoffice
-#      - ./onlyoffice/data:/var/www/onlyoffice/Data
-#      - ./onlyoffice/lib:/var/lib/onlyoffice
-#      - ./onlyoffice/db:/var/lib/postgresql
-#    networks:
-#      - npm-net
+    restart: always
+    environment:
+      JWT_SECRET: $ONLYOFFICE_JWT_SECRET
+      JWT_ENABLED: true
+#      LETS_ENCRYPT_DOMAIN: $ONLYOFFICE_LETS_ENCRYPT_DOMAIN
+#      LETS_ENCRYPT_MAIL: $ONLYOFFICE_LETS_ENCRYPT_MAIL
+    volumes:
+      - ./onlyoffice/logs:/var/log/onlyoffice
+      - ./onlyoffice/data:/var/www/onlyoffice/Data
+      - ./onlyoffice/lib:/var/lib/onlyoffice
+      - ./onlyoffice/db:/var/lib/postgresql
+    networks:
+      - npm-net
+      - nextcloud-aio
   code-server:
     image: lscr.io/linuxserver/code-server:latest
     container_name: code-server
